@@ -1,0 +1,10 @@
+name:Tristan
+health:48
+maxhealth:100
+level:1
+experience:0
+gold:0
+xptonextlevel:100
+strength:10
+currentloc:0:1
+inventory:WEAPON:Copper shortsword:1:5:HELMET:Leather helmet:1:3
