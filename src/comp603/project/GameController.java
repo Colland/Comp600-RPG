@@ -26,7 +26,7 @@ public class GameController
      * @param args the command line arguments
      */
     public static void main(String[] args)
-    {
+    {   
        World.populate();
        Player loadedPlayer = loadPlayer();
        
@@ -69,6 +69,7 @@ public class GameController
        }
        
        Player player1 = World.getPlayer();
+       View view1 = new View();
        Scanner scan1 = new Scanner(System.in);
        
        /*Main game loop. Calls a function on the players current location that
