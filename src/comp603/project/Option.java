@@ -12,9 +12,9 @@ package comp603.project;
 public class Option 
 { 
     private String optionText;
-    private OptionType optionType;
+    private ButtonType optionType;
     
-    public Option(String optionText, OptionType optionType)
+    public Option(String optionText, ButtonType optionType)
     {
         this.optionText = optionText;
         this.optionType = optionType;
@@ -25,7 +25,7 @@ public class Option
         return this.optionText;
     }
     
-    public OptionType getOptionType()
+    public ButtonType getOptionType()
     {
         return this.optionType;
     }

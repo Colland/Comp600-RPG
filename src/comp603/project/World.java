@@ -43,14 +43,14 @@ public final class World
     public static void populate()
     {
         Location mainTown = new Location(new Coordinate(0, 0), "Town");
-        mainTown.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        mainTown.addLocationOption("Look around for people", OptionType.LOOKFORNPCS);       
-        mainTown.addLocationOption("Look around for shops", OptionType.LOOKFORSHOPS);
-        mainTown.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
-        mainTown.addLocationOption("Rest at an inn", OptionType.RESTOREHEALTH);
+        mainTown.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        mainTown.addLocationOption("Look around for people", ButtonType.LOOKFORNPCS);       
+        mainTown.addLocationOption("Look around for shops", ButtonType.LOOKFORSHOPS);
+        mainTown.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
+        mainTown.addLocationOption("Rest at an inn", ButtonType.RESTOREHEALTH);
 
         NonCombatNpc townMayor = new NonCombatNpc("Town mayor");
-        townMayor.addOption(new Option("Ask for a quest", OptionType.REQUESTQUEST));
+        townMayor.addOption(new Option("Ask for a quest", ButtonType.REQUESTQUEST));
         mainTown.addNonCombatNpc(townMayor);
 
         Quest slayGoblinQuest = new Quest("Slay the goblins", 100, 100, EnemyType.GOBLIN, 10);
@@ -74,7 +74,7 @@ public final class World
         townMayor.addQuest(slayBalrogQuest);
         
         NonCombatNpc blackSmith = new NonCombatNpc("Blacksmith");
-        blackSmith.addOption(new Option("Trade with", OptionType.TRADEWITH));
+        blackSmith.addOption(new Option("Trade with", ButtonType.TRADEWITH));
         blackSmith.addItem(new Weapon("Iron shortsword", 1, 8));
         blackSmith.addItem(new Weapon("Steel shortsword", 2, 14));
         blackSmith.addItem(new Weapon("Mithril shortsword", 4, 20));
@@ -101,9 +101,9 @@ public final class World
         mainTown.addNpcShop(blackSmith);
 
         Location forest1 = new Location(new Coordinate(0, 1), "Forest");
-        forest1.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        forest1.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        forest1.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        forest1.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        forest1.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        forest1.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
 
         for(int i = 0; i < 11; i++)
         {
@@ -114,9 +114,9 @@ public final class World
         }
         
         Location forest2 = new Location(new Coordinate(-1, 1), "Forest");
-        forest2.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        forest2.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        forest2.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        forest2.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        forest2.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        forest2.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
         
         for(int i = 0; i < 13; i++)
         {
@@ -127,9 +127,9 @@ public final class World
         }
         
         Location forest3 = new Location(new Coordinate(1, 1), "Forest");
-        forest3.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        forest3.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        forest3.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        forest3.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        forest3.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        forest3.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
         
         for(int i = 0; i < 11; i++)
         {
@@ -140,9 +140,9 @@ public final class World
         }
         
         Location deeperForest1 = new Location(new Coordinate(0, 2), "Deeper forest");
-        deeperForest1.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        deeperForest1.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        deeperForest1.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        deeperForest1.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        deeperForest1.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        deeperForest1.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
         
         for(int i = 0; i < 5; i++)
         {
@@ -161,9 +161,9 @@ public final class World
         }
         
         Location deeperForest2 = new Location(new Coordinate(-1, 2), "Deeper forest");
-        deeperForest2.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        deeperForest2.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        deeperForest2.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        deeperForest2.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        deeperForest2.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        deeperForest2.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
         
         for(int i = 0; i < 8; i++)
         {
@@ -182,9 +182,9 @@ public final class World
         }
         
         Location deeperForest3 = new Location(new Coordinate(1, 2), "Deeper forest");
-        deeperForest3.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        deeperForest3.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        deeperForest3.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        deeperForest3.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        deeperForest3.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        deeperForest3.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
  
         for(int i = 0; i < 4; i++)
         {
@@ -203,19 +203,19 @@ public final class World
         }
         
         Location cave1 = new Location(new Coordinate(0, 3), "Cave");
-        cave1.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        cave1.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        cave1.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        cave1.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        cave1.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        cave1.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
         
         CombatNpc balrog = new CombatNpc("Balrog", 1000, 30, 50, 1000, 1000, EnemyType.BALROG);
         balrog.addBattleText("The great balrog awakens.");
         balrog.addDeathText("The cave rumbles as the great balrog falls to the ground, dead.");
         cave1.addCombatNpc(balrog);
 
-        Location mountains1 = new Location(new Coordinate(1, 0), "Mountains");
-        mountains1.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        mountains1.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        mountains1.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        Location mountains1 = new Location(new Coordinate(-1, -1), "Mountains");
+        mountains1.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        mountains1.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        mountains1.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
         
         for (int i = 0; i < 10; i++)
         {
@@ -225,10 +225,10 @@ public final class World
             mountains1.addCombatNpc(slime); 
         }
         
-        Location mountains2 = new Location(new Coordinate(1, 1), "Mountains");
-        mountains2.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        mountains2.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        mountains2.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        Location mountains2 = new Location(new Coordinate(0, -1), "Mountains");
+        mountains2.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        mountains2.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        mountains2.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
         
         for (int i = 0; i < 11; i++)
         {
@@ -239,9 +239,9 @@ public final class World
         }
         
         Location mountains3 = new Location(new Coordinate(1, -1), "Mountains");
-        mountains3.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        mountains3.addLocationOption("Look around for some monsters", OptionType.LOOKFORENEMIES);
-        mountains3.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        mountains3.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        mountains3.addLocationOption("Look around for some monsters", ButtonType.LOOKFORENEMIES);
+        mountains3.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
         
         for (int i = 0; i < 13; i++)
         {
@@ -251,20 +251,27 @@ public final class World
             mountains3.addCombatNpc(slime); 
         }
 
-        Location loc5 = new Location(new Coordinate(-1, 0), "Mountain");
-        loc5.addLocationOption("Travel somewhere else", OptionType.TRAVEL);
-        loc5.addLocationOption("Check your inventory", OptionType.CHECKINVENTORY);
+        Location loc5 = new Location(new Coordinate(-1, 0), "Mountains");
+        loc5.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        loc5.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
+        
+        Location loc6 = new Location(new Coordinate(1, 0), "Mountains");
+        loc6.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        loc6.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
 
         World.addLocation(mainTown);
         World.addLocation(forest1);
         World.addLocation(forest2);
         World.addLocation(forest3);
         World.addLocation(deeperForest1);
+        World.addLocation(deeperForest2);
+        World.addLocation(deeperForest3);
         World.addLocation(cave1);
         World.addLocation(mountains1);
         World.addLocation(mountains2);
         World.addLocation(mountains3);
         World.addLocation(loc5);
+        World.addLocation(loc6);
 
         Player player1 = new Player("Tristan", 100, mainTown);
         World.setPlayer(player1);

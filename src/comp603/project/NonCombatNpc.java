@@ -71,7 +71,7 @@ public class NonCombatNpc extends Npc
                 }
                 else
                 {
-                    OptionType userOptionChosen = optionList.get(userInput-1).getOptionType();
+                    ButtonType userOptionChosen = optionList.get(userInput-1).getOptionType();
 
                     switch(userOptionChosen)
                     {

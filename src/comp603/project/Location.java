@@ -38,7 +38,7 @@ public class Location
        return this.coordinate; 
     }
     
-    public void addLocationOption(String optionText, OptionType type)
+    public void addLocationOption(String optionText, ButtonType type)
     {
         locationOptions.add(new Option(optionText, type));
     }
@@ -66,6 +66,11 @@ public class Location
     public int getNOfOptions()
     {
         return this.locationOptions.size();
+    }
+    
+    public ArrayList<Option> getOptions()
+    {
+        return this.locationOptions;
     }
     
     public void displayOptions()
@@ -172,76 +177,45 @@ public class Location
     //Checks for any Locations ajadcent to the calling Location.
     //Prints them as travel options if any exist.
     //Prompts user input and returns the selected location.
-    public Location displayTravelOptions()
+    public ArrayList<Integer> getAvailableDirections()
     {
         int x = this.coordinate.getX();
         int y = this.coordinate.getY();
-        boolean flag = true;
         
-        do
+        int counter = 1;
+        ArrayList<Integer> availableDirections = new ArrayList<>();
+        ArrayList<Location> availableLocs = new ArrayList<>();
+
+        //Check adjacent north location
+        if(World.map.get(new Coordinate(x, y+1)) != null)
         {
-           try
-           {
-                int counter = 1;
-                ArrayList<Location> availableLocs = new ArrayList<>();
-                
-                System.out.println("Travel");
-                System.out.println("------");
-
-                //Check adjacent north location
-                if(World.map.get(new Coordinate(x, y+1)) != null)
-                {
-                    System.out.println(counter + ". Head north");
-                    availableLocs.add(World.map.get(new Coordinate(x, y+1)));
-                    counter++;
-                }
-                //Check adjacent east location
-                if(World.map.get(new Coordinate(x+1, y)) != null)
-                {
-                    System.out.println(counter + ". Head east");
-                    availableLocs.add(World.map.get(new Coordinate(x+1, y)));
-                    counter++;
-                }
-                //Check adjacent south location
-                if(World.map.get(new Coordinate(x, y-1)) != null)
-                {
-                    System.out.println(counter + ". Head south");
-                    availableLocs.add(World.map.get(new Coordinate(x, y-1)));
-                    counter++;
-                }
-                //Check adjacent west location
-                if(World.map.get(new Coordinate(x-1, y)) != null)
-                {
-                    System.out.println(counter + ". Head west");
-                    availableLocs.add(World.map.get(new Coordinate(x-1, y)));
-                    counter++;
-                }
-
-                System.out.println(counter + ". Exit menu");
-
-                Scanner scan = new Scanner(System.in);
-                int userInput = scan.nextInt();
-
-                if(userInput == counter)
-                {
-                    flag = false;
-                }
-                else if(userInput > availableLocs.size() || userInput <= 0)
-                {
-                    System.out.println("Please input a valid number.");
-                }
-                else
-                {
-                    return availableLocs.get(userInput-1);
-                } 
-           }
-           catch(InputMismatchException e)
-           {
-               System.out.println("Please input only numbers");
-           }
-        }while(flag);
+            System.out.println(counter + ". Head north");
+            availableLocs.add(World.map.get(new Coordinate(x, y+1)));
+            availableDirections.add(0);
+        }
+        //Check adjacent east location
+        if(World.map.get(new Coordinate(x+1, y)) != null)
+        {
+            System.out.println(counter + ". Head east");
+            availableLocs.add(World.map.get(new Coordinate(x+1, y)));
+            availableDirections.add(1);
+        }
+        //Check adjacent south location
+        if(World.map.get(new Coordinate(x, y-1)) != null)
+        {
+            System.out.println(counter + ". Head south");
+            availableLocs.add(World.map.get(new Coordinate(x, y-1)));
+            availableDirections.add(2);
+        }
+        //Check adjacent west location
+        if(World.map.get(new Coordinate(x-1, y)) != null)
+        {
+            System.out.println(counter + ". Head west");
+            availableLocs.add(World.map.get(new Coordinate(x-1, y)));
+            availableDirections.add(3);
+        }
         
-        return null;
+        return availableDirections;
     }
     
     public void displayShops()

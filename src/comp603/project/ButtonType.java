@@ -10,7 +10,7 @@ package comp603.project;
  * @author Tristan
  */
 
-public enum OptionType
+public enum ButtonType
 {
     TRAVEL,
     LOOKFORSHOPS,
@@ -20,4 +20,6 @@ public enum OptionType
     REQUESTQUEST,
     RESTOREHEALTH,
     TRADEWITH,
+    DIRECTIONAL,
+    EXITMENU
 }

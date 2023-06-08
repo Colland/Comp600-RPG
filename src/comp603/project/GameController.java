@@ -5,6 +5,8 @@
  */
 package comp603.project;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,7 +14,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -20,7 +21,7 @@ import java.util.StringTokenizer;
  *
  * @author tjack
  */
-public class GameController 
+public class GameController
 {
     /**
      * @param args the command line arguments
@@ -69,13 +70,15 @@ public class GameController
        }
        
        Player player1 = World.getPlayer();
-       View view1 = new View();
+       Model model = new Model();
+       Controller controller = new Controller(model);
+       model.addObserver(controller.view);
        Scanner scan1 = new Scanner(System.in);
        
        /*Main game loop. Calls a function on the players current location that
        displays any possible actions that can be done within that location. Then
        asks user for input and validates it.*/     
-       boolean flag = true;
+       /*boolean flag = true;
        do
        {
            int nOfCurrentLocationOptions = player1.getCurrentLocation().getNOfOptions();
@@ -171,7 +174,7 @@ public class GameController
                System.out.println("Please input numbers only.");
                scan1.nextLine();
            }   
-       }while(flag);
+       }while(flag);*/
     }
     
     //Saves player details to a text file.
@@ -406,7 +409,7 @@ public class GameController
 
                 completedItem = new Platelegs(itemName, levelReq, armorRating);
                 break;
-        }     
+        }   
         
         return completedItem;
     }
