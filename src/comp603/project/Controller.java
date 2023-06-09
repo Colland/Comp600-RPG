@@ -49,6 +49,42 @@ public class Controller implements ActionListener
                 case EXITMENU:
                     view.displayLocationGUI(World.getPlayer().getCurrentLocation());
                     break;
+
+                case LOOKFORNPCS:
+                    this.model.getCurrentLocationNPCs();
+                    break;
+                    
+                case TALKTONPC:
+                    this.model.getNpcOptions(eventBtn.buttonNumber);
+                    break;
+                    
+                case REQUESTQUEST:
+                    this.model.getNpcQuests();
+                    break;
+                    
+                case SHOWQUEST:
+                    this.model.getQuest(eventBtn.buttonNumber);
+                    break;
+                    
+                case ACCEPTQUEST:
+                    this.model.acceptQuest();
+                    break;
+                    
+                case LOOKFORENEMIES:
+                    this.model.displayLocationEnemies();
+                    break;
+                    
+                case FIGHTENEMY:
+                    this.model.initiateBattle(eventBtn.buttonNumber);
+                    break;
+                    
+                case ATTACK:
+                    this.model.attackRound();
+                    break;
+                    
+                case RUN:
+                    this.model.runRound();
+                    break;
             }   
        }
         

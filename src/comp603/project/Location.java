@@ -73,6 +73,11 @@ public class Location
         return this.locationOptions;
     }
     
+    public ArrayList<NonCombatNpc> getNonCombatNpcList()
+    {
+        return this.locationNonCombatNpcList;
+    }
+    
     public void displayOptions()
     {
         for(int i = 0; i < locationOptions.size(); i++)

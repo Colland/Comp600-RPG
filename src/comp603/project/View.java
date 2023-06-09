@@ -7,18 +7,13 @@ package comp603.project;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.JFrame;
 import java.util.Observer;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -32,13 +27,6 @@ public class View extends JFrame implements Observer
     private JPanel locationPanel = new JPanel();
     private JPanel directionsPanel = new JPanel();
     private JPanel guiLayoutPanel = new JPanel();
-    private JLabel locationTitle = new JLabel("Town");
-    private JButton locationBtn1 = new JButton("Travel somewhere else");
-    private JButton locationBtn2 = new JButton("Look around for people");
-    private JButton locationBtn3 = new JButton("Look around for shops");
-    private JButton locationBtn4 = new JButton("Check your inventory");
-    private JButton locationBtn5 = new JButton("Rest at an inn");
-    private JButton locationBtn6 = new JButton("Save and exit game");
     
     private String currentMenu;
             
@@ -208,6 +196,354 @@ public class View extends JFrame implements Observer
         this.currentMenu = "Directions";
     }
     
+    public void displayLocationNpcs(ArrayList<NonCombatNpc> npcList)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel locationNpcPanel = new JPanel();
+        locationNpcPanel.setLayout(new BoxLayout(locationNpcPanel, BoxLayout.Y_AXIS));
+        locationNpcPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel npcTitle = new JLabel("Npcs");
+        npcTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        npcTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        locationNpcPanel.add(npcTitle);
+        
+        for(int i = 0; i < npcList.size(); i++)
+          {
+              Npc npc = npcList.get(i);
+              CustomButton npcBtn = new CustomButton(npc.getName(), ButtonType.TALKTONPC, i);
+              npcBtn.setMaximumSize(new Dimension(170, 30));
+              npcBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+              npcBtn.addActionListener(controller);
+              
+              locationNpcPanel.add(npcBtn);
+          }
+        
+        CustomButton exitBtn = new CustomButton("Exit menu");
+        exitBtn.buttonType = ButtonType.EXITMENU;
+        exitBtn.setMaximumSize(new Dimension(170, 30));
+        exitBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exitBtn.addActionListener(controller);
+        locationNpcPanel.add(exitBtn);
+        
+        this.guiLayoutPanel.add(locationNpcPanel);
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "LocationNpcs";
+    }
+    
+    public void displayNpcOptions(ArrayList<Option> optionList, String menuTitle)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel npcOptionsPanel = new JPanel();
+        npcOptionsPanel.setLayout(new BoxLayout(npcOptionsPanel, BoxLayout.Y_AXIS));
+        npcOptionsPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel npcName = new JLabel(menuTitle);
+        npcName.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        npcName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        npcOptionsPanel.add(npcName);
+        
+        for(int i = 0; i < optionList.size(); i++)
+           {
+              Option option = optionList.get(i);
+              CustomButton optionBtn;
+                      
+              switch(option.getOptionType())
+              {
+                  case REQUESTQUEST:
+                      optionBtn = new CustomButton(option.getOptionText(), ButtonType.REQUESTQUEST, i);
+                      break;
+                      
+                  default:
+                      optionBtn = new CustomButton(option.getOptionText());
+                      break;
+              }
+              
+              optionBtn.setMaximumSize(new Dimension(170, 30));
+              optionBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+              optionBtn.addActionListener(controller);
+              
+              npcOptionsPanel.add(optionBtn);
+           }
+        
+        CustomButton exitBtn = new CustomButton("Exit menu");
+        exitBtn.buttonType = ButtonType.EXITMENU;
+        exitBtn.setMaximumSize(new Dimension(170, 30));
+        exitBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exitBtn.addActionListener(controller);
+        npcOptionsPanel.add(exitBtn);
+        
+         guiLayoutPanel.add(Box.createHorizontalGlue());
+         guiLayoutPanel.add(npcOptionsPanel);
+         guiLayoutPanel.add(Box.createHorizontalGlue());
+          
+         this.add(guiLayoutPanel);
+         this.revalidate();
+         this.repaint();
+          
+         this.currentMenu = "NpcOptions";
+    }
+    
+    public void displayNpcQuests(ArrayList<Quest> questList, String menuTitle)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel questsPanel = new JPanel();
+        questsPanel.setLayout(new BoxLayout(questsPanel, BoxLayout.Y_AXIS));
+        questsPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel questsTitle = new JLabel(menuTitle);
+        questsTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        questsTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        questsPanel.add(questsTitle);
+        
+        for(int i = 0; i < questList.size(); i++)
+           {
+              Quest quest = questList.get(i);
+              CustomButton questBtn = new CustomButton(quest.getName(), ButtonType.SHOWQUEST, i);
+              
+              questBtn.setMaximumSize(new Dimension(170, 30));
+              questBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+              questBtn.addActionListener(controller);
+              
+              questsPanel.add(questBtn);
+           }
+        
+        CustomButton exitBtn = new CustomButton("Exit menu");
+        exitBtn.buttonType = ButtonType.EXITMENU;
+        exitBtn.setMaximumSize(new Dimension(170, 30));
+        exitBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exitBtn.addActionListener(controller);
+        questsPanel.add(exitBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(questsPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+          
+        this.add(guiLayoutPanel);
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "NpcQuests";
+    }
+    
+    public void displayQuest(Quest quest)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel questPanel = new JPanel();
+        questPanel.setLayout(new BoxLayout(questPanel, BoxLayout.Y_AXIS));
+        questPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel questTitle = new JLabel(quest.getName());
+        questTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        questTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        questPanel.add(questTitle);
+        
+        JLabel questDescription = new JLabel("<html>" + quest.getDescription() + "</html>");
+        questDescription.setMaximumSize(new Dimension(500, 100));
+        questDescription.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        questPanel.add(questDescription);
+        
+        if(quest.isAccepted())
+        {
+           CustomButton alreadyBtn = new CustomButton("Accepted");
+           alreadyBtn.setMaximumSize(new Dimension(170, 30));
+           alreadyBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+           questPanel.add(alreadyBtn); 
+        }
+        else
+        {
+            CustomButton acceptBtn = new CustomButton("Accept", ButtonType.ACCEPTQUEST);
+            acceptBtn.setMaximumSize(new Dimension(170, 30));
+            acceptBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            acceptBtn.addActionListener(controller);
+            questPanel.add(acceptBtn);  
+        }
+
+        
+        CustomButton exitBtn = new CustomButton("Exit menu");
+        exitBtn.buttonType = ButtonType.EXITMENU;
+        exitBtn.setMaximumSize(new Dimension(170, 30));
+        exitBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exitBtn.addActionListener(controller);
+        questPanel.add(exitBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(questPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.add(guiLayoutPanel);
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "CurrentQuest";
+    }
+   
+    public void displayCombatNpcs(ArrayList<CombatNpc> npcList, String menuTitle)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel combatNpcPanel = new JPanel();
+        combatNpcPanel.setLayout(new BoxLayout(combatNpcPanel, BoxLayout.Y_AXIS));
+        combatNpcPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel menuName = new JLabel(menuTitle);
+        menuName.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        menuName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        combatNpcPanel.add(menuName);
+        
+        for(int i = 0; i < npcList.size() && i < 7; i++)
+        {
+            CombatNpc npc = npcList.get(i);
+            CustomButton npcBtn = new CustomButton(npc.getName(), ButtonType.FIGHTENEMY, i);
+              
+            npcBtn.setMaximumSize(new Dimension(170, 30));
+            npcBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            npcBtn.addActionListener(controller);
+             
+            combatNpcPanel.add(npcBtn);
+        }
+        
+        CustomButton exitBtn = new CustomButton("Exit menu");
+        exitBtn.buttonType = ButtonType.EXITMENU;
+        exitBtn.setMaximumSize(new Dimension(170, 30));
+        exitBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exitBtn.addActionListener(controller);
+        combatNpcPanel.add(exitBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(combatNpcPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.add(guiLayoutPanel);
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "DisplayEnemies";
+    }
+    
+    public void initiateBattle(CombatNpc enemy, Player player)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel battlePanel = new JPanel();
+        battlePanel.setLayout(new BoxLayout(battlePanel, BoxLayout.Y_AXIS));
+        battlePanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel menuName = new JLabel("Battle");
+        menuName.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        menuName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        battlePanel.add(menuName);
+        
+        JLabel enemyStatus = new JLabel("| " + enemy.getName() + " | Hp: " + enemy.getHealth() + " |");
+        enemyStatus.setMaximumSize(new Dimension(250, 75));
+        enemyStatus.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        battlePanel.add(enemyStatus);
+        
+        /*this.battleTextPanel.setLayout(new BoxLayout(battleTextPanel, BoxLayout.Y_AXIS));
+        battleTextPanel.setMaximumSize(new Dimension(150, 75));
+        battleTextPanel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        battlePanel.add(this.battleTextPanel);*/
+        
+        JLabel playerStatus = new JLabel("| " + player.getName() + " | Hp: " + player.getCurrentHealth() + " |");
+        playerStatus.setMaximumSize(new Dimension(250, 75));
+        playerStatus.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        battlePanel.add(playerStatus);
+        
+        CustomButton attackBtn = new CustomButton("Attack", ButtonType.ATTACK);
+        attackBtn.setMaximumSize(new Dimension(170, 30));
+        attackBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        attackBtn.addActionListener(controller);
+        battlePanel.add(attackBtn);
+        
+        CustomButton runBtn = new CustomButton("Run", ButtonType.RUN);
+        runBtn.setMaximumSize(new Dimension(170, 30));
+        runBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        runBtn.addActionListener(controller);
+        battlePanel.add(runBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(battlePanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.add(guiLayoutPanel);
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "Battle";
+    }
+    
+    public void battleRound(CombatNpc enemy, Player player, boolean runAttempt, int enemyDmg, int playerDmg)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel battlePanel = new JPanel();
+        battlePanel.setLayout(new BoxLayout(battlePanel, BoxLayout.Y_AXIS));
+        battlePanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel menuName = new JLabel("Battle");
+        menuName.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        menuName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        battlePanel.add(menuName);
+        
+        JLabel enemyStatus = new JLabel("| " + enemy.getName() + " | Hp: " + enemy.getHealth() + " |");
+        enemyStatus.setMaximumSize(new Dimension(100, 75));
+        enemyStatus.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        battlePanel.add(enemyStatus);
+        
+        if(runAttempt == true)
+        {
+            JLabel enemyAttackMsg = new JLabel("<html>The " + enemy.getName() + " attacks you and deals "
+                                               + enemyDmg + " damage.</html>");
+            enemyAttackMsg.setMaximumSize(new Dimension(150, 30));
+            enemyAttackMsg.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            battlePanel.add(enemyAttackMsg);
+            
+            JLabel failedRunMsg = new JLabel("<html>You have failed to run away.</html>");
+            failedRunMsg.setMaximumSize(new Dimension(150, 30));
+            failedRunMsg.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            battlePanel.add(failedRunMsg);
+        }
+        else
+        {
+            JLabel enemyAttackMsg = new JLabel("<html>The " + enemy.getName() + " attacks you and deals "
+                                               + enemyDmg + " damage.</html>");
+            enemyAttackMsg.setMaximumSize(new Dimension(150, 30));
+            enemyAttackMsg.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            battlePanel.add(enemyAttackMsg);
+            
+            JLabel playerAttackMsg = new JLabel("<html>You attack the " + enemy.getName() + " and deal "
+                                               + playerDmg + " damage.</html>");
+            playerAttackMsg.setMaximumSize(new Dimension(150, 30));
+            playerAttackMsg.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            battlePanel.add(playerAttackMsg);
+        }
+        
+        JLabel playerStatus = new JLabel("| " + player.getName() + " | Hp: " + player.getCurrentHealth() + " |");
+        playerStatus.setMaximumSize(new Dimension(100, 75));
+        playerStatus.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        battlePanel.add(playerStatus);
+        
+        CustomButton attackBtn = new CustomButton("Attack", ButtonType.ATTACK);
+        attackBtn.setMaximumSize(new Dimension(170, 30));
+        attackBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        attackBtn.addActionListener(controller);
+        battlePanel.add(attackBtn);
+        
+        CustomButton runBtn = new CustomButton("Run", ButtonType.RUN);
+        runBtn.setMaximumSize(new Dimension(170, 30));
+        runBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        runBtn.addActionListener(controller);
+        battlePanel.add(runBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(battlePanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "Battle";
+    }
+    
     @Override
     public void update(Observable o, Object arg)
     {
@@ -215,11 +551,54 @@ public class View extends JFrame implements Observer
         
         if(this.currentMenu.equals("LocationMain"))
         {
-            displayDirectionsGUI(data.getTravelDirections());
+            if(data.getTravelDirections() != null)
+            {
+                this.displayDirectionsGUI(data.getTravelDirections());   
+            }
+            else if(data.getNonCombatNpcList() != null)
+            {
+                this.displayLocationNpcs(data.getNonCombatNpcList());
+            }
+            else if(data.getCombatNpcList() != null)
+            {
+                this.displayCombatNpcs(data.getCombatNpcList(), data.getMenuTitle());
+            }
         }
         else if(this.currentMenu.equals("Directions"))
         {
-            displayLocationGUI(data.getPlayerLocation());
+            this.displayLocationGUI(data.getPlayerLocation());
+        }
+        else if(this.currentMenu.equals("LocationNpcs"))
+        {
+            this.displayNpcOptions(data.getNonCombatNpcOptionList(), data.getMenuTitle());
+        }
+        else if(this.currentMenu.equals("NpcOptions"))
+        {
+            this.displayNpcQuests(data.getQuestList(), data.getMenuTitle());
+        }
+        else if(this.currentMenu.equals("NpcQuests"))
+        {
+            this.displayQuest(data.getCurrentquest());
+        }
+        else if(this.currentMenu.equals("CurrentQuest"))
+        {
+            this.displayQuest(data.getCurrentquest());
+        }
+        else if(this.currentMenu.equals("DisplayEnemies"))
+        {
+            this.initiateBattle(data.getCurrentEnemy(), data.getPlayer());
+        }
+        else if(this.currentMenu.equals("Battle"))
+        {
+            if(data.getRunSuccess() == true)
+            {
+                this.displayLocationGUI(data.getPlayerLocation());
+            }
+            else
+            {
+                this.battleRound(data.getCurrentEnemy(), data.getPlayer(), data.isRunAttempt(),
+                                 data.getEnemyDmg(), data.getPlayerDmg()); 
+            }
         }
     }
 }

@@ -284,7 +284,7 @@ public class Player
     
     /*Generates a random damage value between a certain range based off of players
     stats and enemy stats.*/
-    public void attack(CombatNpc enemy)
+    public int attack(CombatNpc enemy)
     {
         int damageRange = (int)Math.floor(this.strength /2);
         int damageFloor = (int)(this.strength * 0.75) + this.getDamageRating();
@@ -297,20 +297,12 @@ public class Player
             totalDmg = 0;
         }
         enemy.reduceHealth(totalDmg);
-        System.out.println("You attack the " + enemy.getName() + " and deal " 
-                           + totalDmg + " damage.");
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch(InterruptedException e)
-        {
-            
-        }
+        
+        return totalDmg;
     }
     
     //Rolls a 1 in 3 chance to run away from the combat encounter
-    public boolean attemptRun(CombatNpc enemy)
+    public boolean attemptRun()
     {
         double rng = Math.random();
         
@@ -366,7 +358,7 @@ public class Player
                            
                        case 2:
                            //Attempts to run from battle
-                           if(this.attemptRun(enemy) == true)
+                           if(this.attemptRun() == true)
                             {
                                flag = false;
                                System.out.println("You manage to run away.\n");

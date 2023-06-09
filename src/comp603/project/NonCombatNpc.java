@@ -39,6 +39,16 @@ public class NonCombatNpc extends Npc
         this.itemList.add(item);
     }
     
+    public ArrayList<Option> getOptionList()
+    {
+        return this.optionList;
+    }
+    
+    public ArrayList<Quest> getQuestList()
+    {
+        return this.questList;
+    }
+    
     /*Displays any options the npc may have. Prompts user for input and calls the
     corresponding function for the option chosen.*/
     public void displayOptions()

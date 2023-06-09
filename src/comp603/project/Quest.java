@@ -78,6 +78,11 @@ public class Quest
         this.description = description;
     }
     
+    public String getDescription()
+    {
+        return this.description;
+    }
+    
     public void acceptQuest()
     {
         this.accepted = true;

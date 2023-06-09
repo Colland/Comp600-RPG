@@ -14,6 +14,7 @@ import javax.swing.JButton;
 public class CustomButton extends JButton
 {
     public ButtonType buttonType;
+    public int buttonNumber;
     
     CustomButton(String text)
     {
@@ -24,5 +25,12 @@ public class CustomButton extends JButton
     {
         super(text);
         this.buttonType = buttonType;
+    }
+    
+    CustomButton(String text, ButtonType buttonType, int buttonNumber)
+    {
+        super(text);
+        this.buttonType = buttonType;
+        this.buttonNumber = buttonNumber;
     }
 }

@@ -81,7 +81,7 @@ public class CombatNpc extends Npc
     
     //Calculates a random amount of damage between a set range using CombatNpc and
     //player stat values.
-    public void attack(Player player)
+    public int attack(Player player)
     {
         int damageRange = (int)Math.floor(this.strength /2);
         int damageFloor = (int)(this.strength * 0.75);
@@ -93,16 +93,8 @@ public class CombatNpc extends Npc
             totalDmg = 0;
         }
         player.reduceHealth(totalDmg);
-        System.out.println("The " + this.name + " attacks you and deals " + totalDmg
-                           + " damage.");
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch(InterruptedException e)
-        {
-            
-        }
+        
+        return totalDmg;
     }
     
     public void die(Player player)
