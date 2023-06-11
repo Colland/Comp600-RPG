@@ -14,6 +14,7 @@ import java.util.Observable;
  */
 public class Model extends Observable
 {
+    public Database db;
     public Player player;
     private NonCombatNpc currentNonCombatNpc;
     private Quest currentQuest;
@@ -21,6 +22,8 @@ public class Model extends Observable
     
     public Model()
     {
+        this.db = new Database();
+        this.db.setupDB();
         this.player = World.getPlayer();
     }
     
@@ -162,6 +165,16 @@ public class Model extends Observable
         data.setPlayerDmg(playerDamage);
         data.setEnemyDmg(enemyDamage);
         data.setRunAttempt(false);
+        
+        if(this.player.isDead())
+        {
+            //Change die function to set his location to town and reset health
+           // this.player.die();
+        }
+        else if(this.currentEnemy.isDead())
+        {
+            
+        }
         
         this.setChanged();
         notifyObservers(data);
