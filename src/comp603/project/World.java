@@ -281,11 +281,5 @@ public final class World
         World.addLocation(mountains3);
         World.addLocation(loc5);
         World.addLocation(loc6);
-
-        Player player1 = new Player("Tristan", 100, mainTown);
-        World.setPlayer(player1);
-
-        player1.addItemToInventory(new Weapon("Copper shortsword", 1, 5));
-        player1.addItemToInventory(new Armor("Leather helmet", 1, 3, ItemType.HELMET));
     }
 }

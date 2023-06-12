@@ -118,14 +118,6 @@ public class CombatNpc extends Npc
         player.addGold(this.goldReward);
         player.updateQuests(this.enemyType);
         
-        //Beating the balrog is the end game condition.
-        if(this.enemyType == EnemyType.BALROG)
-        {
-            System.out.println("Congratulations you beat the balrog and saved the town!");
-            System.out.println("Ending game...");
-            System.exit(0);
-        }
-        
         player.getCurrentLocation().removeCombatNpc(this);
     }
 }

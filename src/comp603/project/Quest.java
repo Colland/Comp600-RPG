@@ -98,18 +98,8 @@ public class Quest
         return this.completed;
     }
     
-    public void displayQuest()
-    {
-        System.out.println(this.name);
-        System.out.println("--------------------------------------");
-        System.out.println(this.description);
-    }
-    
     public void complete()
     {
-        System.out.println("Congratulations you have completed " + this.name + " and gained "
-                + this.xpReward + " xp and " + this.goldReward + " gold.");
-        
         Player player = World.getPlayer();
         player.addXp(xpReward);
         player.addGold(goldReward);

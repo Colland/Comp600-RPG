@@ -92,23 +92,41 @@ public class Controller implements ActionListener
                     
                 case EXITGAME:
                     this.model.saveCharacter();
-                    System.exit(0);
+                    view.showSaveScreen(World.getPlayer().getId());
                     break;
                     
                 case LOADCHARACTER:
-                    this.model.loadCharacter(this.view.idInput.getText());
-                    this.view.displayLocationGUI(World.getPlayer().getCurrentLocation());
+                    String userInput = this.view.idInput.getText();
+                    
+                    if(userInput.equals(""))
+                    {
+                        this.view.displayLoadPlayerGUI(true);
+                    }
+                    else
+                    {
+                        Player loadedPlayer = this.model.db.loadPlayerData(String.valueOf(userInput));
+                        if(loadedPlayer == null)
+                        {
+                           this.view.displayLoadPlayerGUI(true); 
+                        }
+                        else
+                        {
+                           World.setPlayer(loadedPlayer);
+                           this.model.player = loadedPlayer;
+                           this.view.displayLocationGUI(loadedPlayer.getCurrentLocation()); 
+                        }
+                    }
                     break;
                     
                 case NEWCHARACTER:
                     this.model.generateNewCharacter();
                     this.view.displayLocationGUI(World.getPlayer().getCurrentLocation());
                     break;
+                    
+                case CLOSEGAME:
+                    System.exit(0);
+                    break;
             }   
-       }
-        
-        System.out.println(e.getSource());
-        System.out.println(command);
-        
+       } 
     }
 }

@@ -40,15 +40,14 @@ public class Database
             }
             if (!checkTableExisting("Items")) {
                 statement.executeUpdate("CREATE TABLE Items (itemid VARCHAR(20), name VARCHAR(20), itemtype VARCHAR(20),"
-                                      + " levelreq INT, qualityrating INT, characterid VARCHAR(20)");
+                                      + " levelreq INT, qualityrating INT, characterid VARCHAR(20))");
             }
             statement.close();
 
         }
        catch (Throwable e)
        {
-            System.out.println("Error");
-
+            e.printStackTrace();
        }
     }
     
@@ -92,6 +91,7 @@ public class Database
         int gold = player.getGold();
         int nextXp = player.getXpToNextLevel();
         int strength = player.getStrength();
+        ArrayList<Item> inventory = player.getInventory();
         
         String helmet = null;
         String breastplate = null;
@@ -118,7 +118,7 @@ public class Database
             weapon = player.getEquippedWeapon().getId();
         }
         
-        String sql = "INSERT INTO players (playerid, name, health, maxhealth, level, experience"
+        String sql = "INSERT INTO Players (playerid, name, health, maxhealth, level, experience"
                 + ", gold, xptonextlevel, strength, equippedhelmetid, equippedbreastplateid,"
                 + " equippedplatelegsid ,equippedweaponid)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -179,40 +179,43 @@ public class Database
             System.out.println("Error inserting SQL: " + ex.getMessage());
                                 ex.printStackTrace();
         }
+        
+        this.insertInventory(inventory, player.getId());
     }
     
     public Player loadPlayerData(String id)
     {
-        String sql = "SELECT playerid, name, health, maxhealth, level, experience, gold, xptonextlevel,"
-                + " strength, equippedhelmetid, equippedbreastplateid, equippedplatelegsid, equippedweaponid FROM players WHERE id = " + id + "";
         Player player = null;
 
         try {
-            PreparedStatement statement = this.conn.prepareStatement(sql);
-            statement.setString(1, id);
-            ResultSet resultSet = statement.executeQuery();
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT playerid, name, health, maxhealth, level, experience, gold, xptonextlevel,"
+                + " strength, equippedhelmetid, equippedbreastplateid, equippedplatelegsid, equippedweaponid FROM Players WHERE playerid = '" + id + "'");
 
-            if (resultSet.next()) {
-                String playerid = resultSet.getString("id");
+            if (resultSet.next())
+            {
+                String playerid = resultSet.getString("playerid");
                 String name = resultSet.getString("name");
                 int health = resultSet.getInt("health");
-                int maxHealth = resultSet.getInt("max_health");
+                int maxHealth = resultSet.getInt("maxhealth");
                 int level = resultSet.getInt("level");
-                int xp = resultSet.getInt("xp");
+                int xp = resultSet.getInt("experience");
                 int gold = resultSet.getInt("gold");
-                int nextXp = resultSet.getInt("next_xp");
+                int nextXp = resultSet.getInt("xptonextlevel");
                 int strength = resultSet.getInt("strength");
-                String helmet = resultSet.getString("helmet");
-                String breastplate = resultSet.getString("breastplate");
-                String platelegs = resultSet.getString("platelegs");
-                String weapon = resultSet.getString("weapon");
+                String helmet = resultSet.getString("equippedhelmetid");
+                String breastplate = resultSet.getString("equippedbreastplateid");
+                String platelegs = resultSet.getString("equippedplatelegsid");
+                String weapon = resultSet.getString("equippedweaponid");
+                ArrayList<Item> inventory = this.loadInventory(playerid);
 
                 // Create the Player object with retrieved data
                 player = new Player(id, name, health, maxHealth, level, xp, gold, nextXp, strength,
                                     helmet != null ? this.loadItem(helmet) : null,
                                     breastplate != null ? this.loadItem(breastplate) : null,
                                     platelegs != null ? this.loadItem(platelegs) : null,
-                                    weapon != null ? this.loadItem(weapon) : null);
+                                    weapon != null ? this.loadItem(weapon) : null,
+                                    inventory);
             }
 
             resultSet.close();
@@ -220,8 +223,8 @@ public class Database
         }
         catch (SQLException ex)
         {
-            System.out.println("Error loading player data: " + ex.getMessage());
             ex.printStackTrace();
+            return null;
         }
 
         return player;
@@ -229,7 +232,7 @@ public class Database
     
     public Item loadItem(String itemId)
     {
-        String sql = "SELECT itemid, name, itemtype, levelreq, qualityrating, characterid FROM Items WHERE itemid = " + itemId;
+        String sql = "SELECT itemid, name, itemtype, levelreq, qualityrating, characterid FROM Items WHERE itemid = ?";
         Item item = null;
 
         try 
@@ -315,14 +318,56 @@ public class Database
     }
     
         
-    public void loadInventory(String characterId)
+    public ArrayList<Item> loadInventory(String characterId)
     {
+        String sql = "SELECT itemid, name, itemtype, levelreq, qualityrating FROM Items WHERE characterid = ?";
+        ArrayList<Item> inventory = new ArrayList<Item>();
+
+        try 
+        {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, characterId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next())
+            {
+                String id = resultSet.getString("itemid");
+                String name = resultSet.getString("name");
+                String itemType = resultSet.getString("itemtype");
+                int levelReq = resultSet.getInt("levelreq");
+                int qualityRating = resultSet.getInt("qualityrating");
+
+                // Create the Item object with retrieved data
+                
+                if(itemType.equals("WEAPON"))
+                {
+                    Weapon weapon = new Weapon(id, name, ItemType.valueOf(itemType), levelReq, qualityRating);
+                    inventory.add((Item)weapon);
+                }
+                else
+                {
+                    Armor armor = new Armor(id, name, ItemType.valueOf(itemType), levelReq, qualityRating);
+                    inventory.add((Item)armor);
+                }
+            }
+
+            resultSet.close();
+            statement.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Error loading item data: " + ex.getMessage());
+            ex.printStackTrace();
+        }
         
+        return inventory;
     }
     
     public void insertInventory(ArrayList<Item> inventory, String characterId)
     {
-        
+        for(int i = 0; i < inventory.size(); i++)
+        {
+            insertItem(inventory.get(i), characterId);
+        }
     }   
-}
 }

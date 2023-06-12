@@ -18,6 +18,7 @@ public abstract class Item
     private final int levelReq;
     private final ItemType itemType;
     private final String id;
+    private static int counter = 1;
     
     public Item(String name, int levelReq, ItemType itemType)
     {
@@ -38,7 +39,8 @@ public abstract class Item
     private String generateId()
     {
         LocalDateTime timestamp = LocalDateTime.now();
-        String uniqueId = timestamp.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + 1;
+        String uniqueId = timestamp.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + counter;
+        counter++;
         
         return uniqueId;
     }

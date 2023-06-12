@@ -43,12 +43,12 @@ public class View extends JFrame implements Observer
         locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));
         locationPanel.setMaximumSize(new Dimension(600, 300));
         
-        this.displayLoadPlayerGUI();
+        this.displayLoadPlayerGUI(false);
         this.currentMenu = "LoadPlayer";
         this.setVisible(true);
     }
     
-    public void displayLoadPlayerGUI()
+    public void displayLoadPlayerGUI(boolean error)
     {
         this.guiLayoutPanel.removeAll();
         JPanel loadPanel = new JPanel();
@@ -71,10 +71,20 @@ public class View extends JFrame implements Observer
         idInput.setMaximumSize(new Dimension(150, 20));
         loadPanel.add(idInput);
         
-        JLabel loadMsg2 = new JLabel();
-        loadMsg2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        loadMsg2.setMaximumSize(new Dimension(300, 20));
-        loadPanel.add(loadMsg2);
+        if(error == true)
+        {
+            JLabel loadMsg2 = new JLabel("Please enter a valid ID, or create a new character.");
+            loadMsg2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            loadMsg2.setMaximumSize(new Dimension(300, 40));
+            loadPanel.add(loadMsg2);   
+        }
+        else
+        {
+           JLabel loadMsg2 = new JLabel();
+            loadMsg2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            loadMsg2.setMaximumSize(new Dimension(300, 20));
+            loadPanel.add(loadMsg2); 
+        }
         
         CustomButton loadBtn = new CustomButton("Load character", ButtonType.LOADCHARACTER);
         loadBtn.setMaximumSize(new Dimension(170, 30));
@@ -95,46 +105,6 @@ public class View extends JFrame implements Observer
         this.add(guiLayoutPanel);
         this.revalidate();
         this.repaint();
-    }
-    
-    public void displayLocationGUI()
-    {
-        this.guiLayoutPanel.removeAll();
-        this.locationPanel.removeAll();
-        //Model updates and sends a data packet, containing info on what screen, what location etc.
-        Location location = World.getPlayer().getCurrentLocation();
-        ArrayList<Option> optionList = location.getOptions();
-        
-        JLabel locName = new JLabel(location.getName());
-        locName.setFont(new Font("Century Gothic", Font.PLAIN, 32));
-        locName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        locationPanel.add(locName);
-        
-        for(int i = 0; i < optionList.size(); i++)
-        {
-            Option option = optionList.get(i);
-            CustomButton optionBtn = new CustomButton(option.getOptionText(), option.getOptionType());
-            optionBtn.setMaximumSize(new Dimension(170, 30));
-            optionBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-            optionBtn.addActionListener(controller);
-            locationPanel.add(optionBtn);
-        }
-        
-        CustomButton exitGameBtn = new CustomButton("Exit game", ButtonType.EXITGAME);
-        exitGameBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        exitGameBtn.setMaximumSize(new Dimension(170, 30));
-        exitGameBtn.addActionListener(controller);
-        locationPanel.add(exitGameBtn);
-        
-        guiLayoutPanel.add(Box.createHorizontalGlue());
-        guiLayoutPanel.add(locationPanel);
-        guiLayoutPanel.add(Box.createHorizontalGlue());
-        
-        this.add(guiLayoutPanel);
-        this.revalidate();
-        this.repaint();
-        
-        this.currentMenu = "LocationMain";
     }
     
       public void displayLocationGUI(Location location)
@@ -166,7 +136,7 @@ public class View extends JFrame implements Observer
               locationPanel.add(optionBtn);
           }
           
-          CustomButton exitGameBtn = new CustomButton("Exit game", ButtonType.EXITGAME);
+          CustomButton exitGameBtn = new CustomButton("Save and exit game", ButtonType.EXITGAME);
           exitGameBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
           exitGameBtn.setMaximumSize(new Dimension(170, 30));
           exitGameBtn.addActionListener(controller);
@@ -736,6 +706,46 @@ public class View extends JFrame implements Observer
         
         guiLayoutPanel.add(Box.createHorizontalGlue());
         guiLayoutPanel.add(innPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void showSaveScreen(String playerId)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel savePanel = new JPanel();
+        savePanel.setLayout(new BoxLayout(savePanel, BoxLayout.Y_AXIS));
+        savePanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel saveTitle = new JLabel("Character saved");
+        saveTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        saveTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        savePanel.add(saveTitle);
+        
+        JLabel saveMsg1 = new JLabel("<html>Your character has been saved Here is your unique character Id:</html>");
+        saveMsg1.setMaximumSize(new Dimension(200, 40));
+        saveMsg1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        savePanel.add(saveMsg1);
+        
+        JLabel saveMsg2 = new JLabel(playerId);
+        saveMsg2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        savePanel.add(saveMsg2);
+        
+        JLabel saveMsg3 = new JLabel();
+        saveMsg3.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        saveMsg3.setMaximumSize(new Dimension(150, 40));
+        savePanel.add(saveMsg3);
+        
+        CustomButton exitBtn = new CustomButton("Exit game", ButtonType.CLOSEGAME);
+        exitBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exitBtn.setMaximumSize(new Dimension(130, 40));
+        exitBtn.addActionListener(controller);
+        savePanel.add(exitBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(savePanel);
         guiLayoutPanel.add(Box.createHorizontalGlue());
         
         this.revalidate();

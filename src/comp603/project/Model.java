@@ -24,7 +24,6 @@ public class Model extends Observable
     {
         this.db = new Database();
         this.db.setupDB();
-        this.player = World.getPlayer();
     }
     
     public void getAvailableDirections()
@@ -254,11 +253,11 @@ public class Model extends Observable
     
     public void generateNewCharacter()
     {
-        World.setPlayer(new Player("Tristan", 100, World.getLocation(new Coordinate(0, 0))));
+        Player player = new Player("Tristan", 100, World.getLocation(new Coordinate(0, 0)));
+        player.addItemToInventory(new Weapon("Copper shortsword", 1, 5));
+        player.addItemToInventory(new Armor("Leather helmet", 1, 3, ItemType.HELMET));
+        World.setPlayer(player);
+        this.player = player;
     }
     
-    public void loadCharacter(String id)
-    {
-        this.db.loadPlayerData(id);
-    }
 }
