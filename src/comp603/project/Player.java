@@ -37,7 +37,7 @@ public class Player
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.currentLocation = currentLocation;
-        this.strength = 10;
+        this.strength = 50;
         this.level = 1;
         this.experience = 0;
         this.xpToNextLevel = 100;
@@ -225,6 +225,20 @@ public class Player
         this.health = maxHealth;
     }
     
+    public boolean healAtInn()
+    {
+        if(this.gold >= 5)
+        {
+            this.health = maxHealth;
+            this.gold -= 5;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     public boolean isDead()
     {
         if(this.health <= 0)
@@ -271,14 +285,6 @@ public class Player
             this.health = maxHealth;
             
             System.out.println("\n You leveled up! You are now level " + this.level);
-            try
-            {
-                Thread.sleep(2000);
-            }
-            catch(InterruptedException e)
-            {
-                
-            }
         }
     }
     
@@ -708,5 +714,11 @@ public class Player
         }
         
         return successfulTrade;
+    }
+    
+    public void die()
+    {
+        this.health = this.maxHealth;
+        this.currentLocation = World.map.get(new Coordinate(0, 0));
     }
 }

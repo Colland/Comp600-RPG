@@ -168,12 +168,19 @@ public class Model extends Observable
         
         if(this.player.isDead())
         {
-            //Change die function to set his location to town and reset health
-           // this.player.die();
+            this.player.die();
+            data.setPlayerDead(true);
         }
         else if(this.currentEnemy.isDead())
         {
+            int currentLvl = player.getLevel();
+            this.currentEnemy.die(this.player);
+            data.setEnemyDead(true);
             
+            if(player.getLevel() > currentLvl)
+            {
+                data.setLevelUp(true);
+            }
         }
         
         this.setChanged();
@@ -190,17 +197,53 @@ public class Model extends Observable
        }
        else
        {
-           int playerDamage = this.player.attack(this.currentEnemy);
+           int playerDamage = 0;
            int enemyDamage = this.currentEnemy.attack(this.player);  
            data.setCurrentEnemy(currentEnemy);
            data.setPlayer(this.player);
            data.setEnemyDmg(enemyDamage);
            data.setPlayerDmg(playerDamage);
+           
+           if(this.player.isDead())
+            {
+                this.player.die();
+                data.setPlayerDead(true);
+            }   
+            else if(this.currentEnemy.isDead())
+            {
+                int currentLvl = player.getLevel();
+                this.currentEnemy.die(this.player);
+                data.setEnemyDead(true);
+
+                if(player.getLevel() > currentLvl)
+                {
+                    data.setLevelUp(true);
+                }
+            }
        } 
        data.setRunAttempt(true);
        data.setPlayerLocation(this.player.getCurrentLocation());
         
        this.setChanged();
        notifyObservers(data); 
+    }
+    
+    public void restorePlayerHealth()
+    {
+        Data data = new Data();
+        data.setInnAttempt(true);
+        data.setPlayer(this.player);
+        
+        if(this.player.healAtInn())
+        {
+            data.setInnSuccess(true);
+        }
+        else
+        {
+            data.setInnSuccess(false);
+        }
+        
+        this.setChanged();
+        notifyObservers(data); 
     }
 }

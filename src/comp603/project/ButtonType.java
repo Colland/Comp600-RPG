@@ -27,5 +27,6 @@ public enum ButtonType
     RESTOREHEALTH,
     TRADEWITH,
     DIRECTIONAL,
-    EXITMENU
+    EXITMENU,
+    EXITGAME,
 }

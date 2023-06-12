@@ -52,6 +52,21 @@ public class CombatNpc extends Npc
         this.health -= damage;
     }
     
+    public String getDeathText()
+    {
+        return this.deathText;
+    }
+    
+    public int getXpReward()
+    {
+        return this.xpReward;
+    }
+    
+    public int getGoldReward()
+    {
+        return this.goldReward;
+    }
+    
     public boolean isDead()
     {
         if(this.health <= 0)
@@ -101,34 +116,14 @@ public class CombatNpc extends Npc
     {
         player.addXp(this.xpReward);
         player.addGold(this.goldReward);
-        
-        System.out.println("\n" + this.deathText);
-        System.out.println("You have gained " + this.xpReward + " xp and " + this.goldReward
-                           + " gold!\n");
-        try
-        {
-            Thread.sleep(1500);
-        }
-        catch(InterruptedException e)
-        {
-            
-        }
+        player.updateQuests(this.enemyType);
         
         //Beating the balrog is the end game condition.
         if(this.enemyType == EnemyType.BALROG)
         {
             System.out.println("Congratulations you beat the balrog and saved the town!");
-            try
-            {
-                Thread.sleep(5000);
-                System.out.println("Ending game...");
-                Thread.sleep(3000);
-                System.exit(0);
-            }
-            catch (InterruptedException e)
-            {
-                
-            }
+            System.out.println("Ending game...");
+            System.exit(0);
         }
         
         player.getCurrentLocation().removeCombatNpc(this);

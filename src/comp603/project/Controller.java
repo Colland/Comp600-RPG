@@ -85,6 +85,13 @@ public class Controller implements ActionListener
                 case RUN:
                     this.model.runRound();
                     break;
+                    
+                case RESTOREHEALTH:
+                    this.model.restorePlayerHealth();
+                    break;
+                    
+                case EXITGAME:
+                    System.exit(0);
             }   
        }
         

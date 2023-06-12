@@ -34,6 +34,7 @@ public class View extends JFrame implements Observer
     {
         this.controller = controller;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
         this.setSize(600, 300);
         this.setLocationRelativeTo(null);
         guiLayoutPanel.setLayout(new BoxLayout(guiLayoutPanel, BoxLayout.X_AXIS));
@@ -67,6 +68,12 @@ public class View extends JFrame implements Observer
             optionBtn.addActionListener(controller);
             locationPanel.add(optionBtn);
         }
+        
+        CustomButton exitGameBtn = new CustomButton("Exit game", ButtonType.EXITGAME);
+        exitGameBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exitGameBtn.setMaximumSize(new Dimension(170, 30));
+        exitGameBtn.addActionListener(controller);
+        locationPanel.add(exitGameBtn);
         
         guiLayoutPanel.add(Box.createHorizontalGlue());
         guiLayoutPanel.add(locationPanel);
@@ -107,6 +114,12 @@ public class View extends JFrame implements Observer
               
               locationPanel.add(optionBtn);
           }
+          
+          CustomButton exitGameBtn = new CustomButton("Exit game", ButtonType.EXITGAME);
+          exitGameBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+          exitGameBtn.setMaximumSize(new Dimension(170, 30));
+          exitGameBtn.addActionListener(controller);
+          locationPanel.add(exitGameBtn);
 
           guiLayoutPanel.add(Box.createHorizontalGlue());
           guiLayoutPanel.add(locationPanel);
@@ -435,7 +448,7 @@ public class View extends JFrame implements Observer
         battlePanel.add(menuName);
         
         JLabel enemyStatus = new JLabel("| " + enemy.getName() + " | Hp: " + enemy.getHealth() + " |");
-        enemyStatus.setMaximumSize(new Dimension(250, 75));
+        enemyStatus.setMaximumSize(new Dimension(275, 75));
         enemyStatus.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         battlePanel.add(enemyStatus);
         
@@ -445,7 +458,7 @@ public class View extends JFrame implements Observer
         battlePanel.add(this.battleTextPanel);*/
         
         JLabel playerStatus = new JLabel("| " + player.getName() + " | Hp: " + player.getCurrentHealth() + " |");
-        playerStatus.setMaximumSize(new Dimension(250, 75));
+        playerStatus.setMaximumSize(new Dimension(275, 75));
         playerStatus.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         battlePanel.add(playerStatus);
         
@@ -485,7 +498,7 @@ public class View extends JFrame implements Observer
         battlePanel.add(menuName);
         
         JLabel enemyStatus = new JLabel("| " + enemy.getName() + " | Hp: " + enemy.getHealth() + " |");
-        enemyStatus.setMaximumSize(new Dimension(100, 75));
+        enemyStatus.setMaximumSize(new Dimension(100, 90));
         enemyStatus.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         battlePanel.add(enemyStatus);
         
@@ -518,7 +531,7 @@ public class View extends JFrame implements Observer
         }
         
         JLabel playerStatus = new JLabel("| " + player.getName() + " | Hp: " + player.getCurrentHealth() + " |");
-        playerStatus.setMaximumSize(new Dimension(100, 75));
+        playerStatus.setMaximumSize(new Dimension(100, 90));
         playerStatus.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         battlePanel.add(playerStatus);
         
@@ -544,6 +557,140 @@ public class View extends JFrame implements Observer
         this.currentMenu = "Battle";
     }
     
+    public void displayVictoryScreen(Data data)
+    {
+        CombatNpc enemy = data.getCurrentEnemy();
+        Player player = data.getPlayer();
+        
+        this.guiLayoutPanel.removeAll();
+        JPanel victoryPanel = new JPanel();
+        victoryPanel.setLayout(new BoxLayout(victoryPanel, BoxLayout.Y_AXIS));
+        victoryPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel victoryTitle = new JLabel("Victory!");
+        victoryTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        victoryTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        victoryPanel.add(victoryTitle);
+        
+        JLabel victoryMessage = new JLabel();
+        victoryMessage.setText("<html> " + enemy.getDeathText() + " </html>");
+        victoryMessage.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        victoryMessage.setMaximumSize(new Dimension(175, 50));
+        victoryPanel.add(victoryMessage);
+        
+        JLabel victoryMessage2 = new JLabel();
+        victoryMessage2.setText("<html> You have gained " + enemy.getXpReward() + " xp and " +
+                                enemy.getGoldReward() + " gold." +  "</html>");
+        victoryMessage2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        victoryMessage2.setMaximumSize(new Dimension(175, 50));
+        victoryPanel.add(victoryMessage2);
+        
+        if(data.getLevelUp() == true)
+        {
+           JLabel victoryMessage3 = new JLabel();
+            victoryMessage3.setText("<html>You leveled up! You are now level " + player.getLevel()
+                                  + " and now have " + player.getMaxHealth() + " hp.</html>");
+            victoryMessage3.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            victoryMessage3.setMaximumSize(new Dimension(175, 50));
+            victoryPanel.add(victoryMessage3); 
+        }
+        
+        CustomButton continueBtn = new CustomButton("Continue", ButtonType.EXITMENU);
+        continueBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        continueBtn.addActionListener(controller);
+        victoryPanel.add(continueBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(victoryPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void displayDeathScreen()
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel deathPanel = new JPanel();
+        deathPanel.setLayout(new BoxLayout(deathPanel, BoxLayout.Y_AXIS));
+        deathPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel deathTitle = new JLabel("Death");
+        deathTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        deathTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        deathPanel.add(deathTitle);
+        
+        JLabel deathMessage= new JLabel("<html>You died. You will respawn at town.</html>");
+        deathMessage.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        deathMessage.setMaximumSize(new Dimension(175, 75));
+        deathPanel.add(deathMessage);
+        
+        CustomButton continueBtn = new CustomButton("Respawn", ButtonType.EXITMENU);
+        continueBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        continueBtn.addActionListener(controller);
+        deathPanel.add(continueBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(deathPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void displayInn(boolean innSuccess, Player player)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel innPanel = new JPanel();
+        innPanel.setLayout(new BoxLayout(innPanel, BoxLayout.Y_AXIS));
+        innPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel innTitle = new JLabel("Inn");
+        innTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        innTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        innPanel.add(innTitle);
+        
+        if(innSuccess == true)
+        {
+            JLabel innMsg1 = new JLabel("<html>You pay 5 gold to rest at the inn. You have " + player.getGold() + " gold left.</html>");
+            innMsg1.setMaximumSize(new Dimension(200, 50));
+            innMsg1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            innPanel.add(innMsg1);
+            
+            JLabel innMsg2 = new JLabel("<html>You are fully rested and your health has been restored to " 
+                                      + player.getCurrentHealth() + " health.</html>");
+            innMsg2.setMaximumSize(new Dimension(200, 100));
+            innMsg2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            innPanel.add(innMsg2);
+        }
+        else
+        {
+           JLabel innMsg1 = new JLabel("<html>You need 5 gold to stay at the inn. You only have " + player.getGold() + " gold.</html>");
+           innMsg1.setMaximumSize(new Dimension(200, 50));
+           innMsg1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+           innPanel.add(innMsg1);
+            
+           JLabel innMsg2 = new JLabel("<html>You were not able to stay at the inn, you currently have " 
+                                      + player.getCurrentHealth() + " health.</html>");
+           innMsg2.setMaximumSize(new Dimension(200, 100));
+           innMsg2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+           innPanel.add(innMsg2); 
+        }
+        
+        CustomButton continueBtn = new CustomButton("Back to town", ButtonType.EXITMENU);
+        continueBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        continueBtn.setMaximumSize(new Dimension(130, 40));
+        continueBtn.addActionListener(controller);
+        innPanel.add(continueBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(innPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
     @Override
     public void update(Observable o, Object arg)
     {
@@ -562,6 +709,10 @@ public class View extends JFrame implements Observer
             else if(data.getCombatNpcList() != null)
             {
                 this.displayCombatNpcs(data.getCombatNpcList(), data.getMenuTitle());
+            }
+            else if(data.getInnAttempt() == true)
+            {
+                this.displayInn(data.getInnSuccess(), data.getPlayer());
             }
         }
         else if(this.currentMenu.equals("Directions"))
@@ -593,6 +744,14 @@ public class View extends JFrame implements Observer
             if(data.getRunSuccess() == true)
             {
                 this.displayLocationGUI(data.getPlayerLocation());
+            }
+            else if(data.getEnemyDead() == true)
+            {
+                this.displayVictoryScreen(data);
+            }
+            else if(data.getPlayerDead() == true)
+            {
+                this.displayDeathScreen();
             }
             else
             {

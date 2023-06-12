@@ -27,6 +27,11 @@ public class Data
     private int enemyDmg;
     private boolean runAttempt;
     private boolean runSuccess;
+    private boolean playerDead;
+    private boolean enemyDead;
+    private boolean levelUp;
+    private boolean innAttempt;
+    private boolean innSuccess;
     
     public Data()
     {
@@ -171,5 +176,55 @@ public class Data
     public boolean getRunSuccess()
     {
         return this.runSuccess;
+    }
+    
+    public void setPlayerDead(boolean isPlayerDead)
+    {
+        this.playerDead = isPlayerDead;
+    }
+    
+    public boolean getPlayerDead()
+    {
+        return this.playerDead;
+    }
+    
+    public void setEnemyDead(boolean isEnemyDead)
+    {
+        this.enemyDead = isEnemyDead;
+    }
+    
+    public boolean getEnemyDead()
+    {
+        return this.enemyDead;
+    }
+    
+    public void setLevelUp(boolean levelUp)
+    {
+        this.levelUp = levelUp;
+    }
+    
+    public boolean getLevelUp()
+    {
+        return this.levelUp;
+    }
+    
+    public void setInnAttempt(boolean innAttempt)
+    {
+        this.innAttempt = innAttempt;
+    }
+    
+    public boolean getInnAttempt()
+    {
+        return this.innAttempt;
+    }
+    
+    public void setInnSuccess(boolean innSuccess)
+    {
+        this.innSuccess = innSuccess;
+    }
+    
+    public boolean getInnSuccess()
+    {
+        return this.innSuccess;
     }
 }

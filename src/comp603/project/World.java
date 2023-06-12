@@ -257,7 +257,16 @@ public final class World
         
         Location loc6 = new Location(new Coordinate(1, 0), "Mountains");
         loc6.addLocationOption("Travel somewhere else", ButtonType.TRAVEL);
+        loc6.addLocationOption("Travel somewhere else", ButtonType.LOOKFORENEMIES);
         loc6.addLocationOption("Check your inventory", ButtonType.CHECKINVENTORY);
+        
+        for (int i = 0; i < 13; i++)
+        {
+            CombatNpc slime = new CombatNpc("Slime", 110, 0, 8, 20, 5, EnemyType.SLIME);
+            slime.addBattleText("The slime jiggles menacingly.");
+            slime.addDeathText("The slime disssolves into the ground.");
+            loc6.addCombatNpc(slime); 
+        }
 
         World.addLocation(mainTown);
         World.addLocation(forest1);
