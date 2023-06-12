@@ -246,4 +246,19 @@ public class Model extends Observable
         this.setChanged();
         notifyObservers(data); 
     }
+    
+    public void saveCharacter()
+    {
+        this.db.insertPlayerData(this.player);
+    }
+    
+    public void generateNewCharacter()
+    {
+        World.setPlayer(new Player("Tristan", 100, World.getLocation(new Coordinate(0, 0))));
+    }
+    
+    public void loadCharacter(String id)
+    {
+        this.db.loadPlayerData(id);
+    }
 }

@@ -29,4 +29,6 @@ public enum ButtonType
     DIRECTIONAL,
     EXITMENU,
     EXITGAME,
+    LOADCHARACTER,
+    NEWCHARACTER,
 }

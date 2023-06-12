@@ -47,7 +47,7 @@ public class Controller implements ActionListener
                     break;
                     
                 case EXITMENU:
-                    view.displayLocationGUI(World.getPlayer().getCurrentLocation());
+                    this.view.displayLocationGUI(World.getPlayer().getCurrentLocation());
                     break;
 
                 case LOOKFORNPCS:
@@ -91,7 +91,19 @@ public class Controller implements ActionListener
                     break;
                     
                 case EXITGAME:
+                    this.model.saveCharacter();
                     System.exit(0);
+                    break;
+                    
+                case LOADCHARACTER:
+                    this.model.loadCharacter(this.view.idInput.getText());
+                    this.view.displayLocationGUI(World.getPlayer().getCurrentLocation());
+                    break;
+                    
+                case NEWCHARACTER:
+                    this.model.generateNewCharacter();
+                    this.view.displayLocationGUI(World.getPlayer().getCurrentLocation());
+                    break;
             }   
        }
         

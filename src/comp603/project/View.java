@@ -16,6 +16,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -23,10 +24,11 @@ import javax.swing.JPanel;
  */
 public class View extends JFrame implements Observer
 {
-    private Controller controller;
-    private JPanel locationPanel = new JPanel();
-    private JPanel directionsPanel = new JPanel();
-    private JPanel guiLayoutPanel = new JPanel();
+    public Controller controller;
+    public JPanel locationPanel = new JPanel();
+    public JPanel directionsPanel = new JPanel();
+    public JPanel guiLayoutPanel = new JPanel();
+    public JTextField idInput;
     
     private String currentMenu;
             
@@ -41,9 +43,58 @@ public class View extends JFrame implements Observer
         locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));
         locationPanel.setMaximumSize(new Dimension(600, 300));
         
-        this.displayLocationGUI();
-        this.currentMenu = "LocationMain";
+        this.displayLoadPlayerGUI();
+        this.currentMenu = "LoadPlayer";
         this.setVisible(true);
+    }
+    
+    public void displayLoadPlayerGUI()
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel loadPanel = new JPanel();
+        loadPanel.setLayout(new BoxLayout(loadPanel, BoxLayout.Y_AXIS));
+        loadPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel loadTitle = new JLabel("Load a character?");
+        loadTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        loadTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        loadPanel.add(loadTitle);
+        
+        JLabel loadMsg1 = new JLabel("<html>Would you like to load a past character?"
+                                 + " Enter the ID you got when you ended the game.</html>");
+        loadMsg1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        loadMsg1.setMaximumSize(new Dimension(300, 50));
+        loadPanel.add(loadMsg1);
+        
+        idInput = new JTextField();
+        idInput.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        idInput.setMaximumSize(new Dimension(150, 20));
+        loadPanel.add(idInput);
+        
+        JLabel loadMsg2 = new JLabel();
+        loadMsg2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        loadMsg2.setMaximumSize(new Dimension(300, 20));
+        loadPanel.add(loadMsg2);
+        
+        CustomButton loadBtn = new CustomButton("Load character", ButtonType.LOADCHARACTER);
+        loadBtn.setMaximumSize(new Dimension(170, 30));
+        loadBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        loadBtn.addActionListener(controller);
+        loadPanel.add(loadBtn);
+        
+        CustomButton newBtn = new CustomButton("New character", ButtonType.NEWCHARACTER);
+        newBtn.setMaximumSize(new Dimension(170, 30));
+        newBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        newBtn.addActionListener(controller);
+        loadPanel.add(newBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(loadPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.add(guiLayoutPanel);
+        this.revalidate();
+        this.repaint();
     }
     
     public void displayLocationGUI()

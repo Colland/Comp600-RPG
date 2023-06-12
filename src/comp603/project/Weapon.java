@@ -19,6 +19,12 @@ public class Weapon extends Item
         this.damageRating = damageRating;
     }
     
+    public Weapon(String id, String name, ItemType itemType, int levelReq, int qualityRating)
+    {
+        super(id, name, levelReq, itemType);
+        this.damageRating = qualityRating;
+    }
+    
     public int getDamageRating()
     {
         return this.damageRating;

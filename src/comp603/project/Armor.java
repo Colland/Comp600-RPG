@@ -9,7 +9,7 @@ package comp603.project;
  *
  * @author Tristan
  */
-public abstract class Armor extends Item
+public class Armor extends Item
 {
     private final int armorRating;
     
@@ -17,6 +17,12 @@ public abstract class Armor extends Item
     {
         super(name, levelReq, itemType);
         this.armorRating = armorRating;
+    }
+    
+    public Armor(String id, String name, ItemType itemType, int levelReq, int qualityRating)
+    {
+        super(id, name, levelReq, itemType);
+        this.armorRating = qualityRating;
     }
     
     public int getArmorRating()

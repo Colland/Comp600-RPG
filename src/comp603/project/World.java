@@ -81,23 +81,23 @@ public final class World
         blackSmith.addItem(new Weapon("Adamantite shortsword", 6, 35));
         blackSmith.addItem(new Weapon("Rune shortsword", 10, 60));
         
-        blackSmith.addItem(new Helmet("Iron helmet", 1, 6));
-        blackSmith.addItem(new Helmet("Steel helmet", 2, 12));
-        blackSmith.addItem(new Helmet("Mithril helmet", 4, 25));
-        blackSmith.addItem(new Helmet("Adamantite helmet", 6, 30));
-        blackSmith.addItem(new Helmet("Rune helmet", 10, 50));
+        blackSmith.addItem(new Armor("Iron helmet", 1, 6, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Steel helmet", 2, 12, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Mithril helmet", 4, 25, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Adamantite helmet", 6, 30, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Rune helmet", 10, 50, ItemType.HELMET));
         
-        blackSmith.addItem(new Breastplate("Iron platebody", 1, 8));
-        blackSmith.addItem(new Breastplate("Steel platebody", 2, 14));
-        blackSmith.addItem(new Breastplate("Mithril platebody", 4, 20));
-        blackSmith.addItem(new Breastplate("Adamantite platebody", 6, 35));
-        blackSmith.addItem(new Breastplate("Rune platebody", 10, 60));
+        blackSmith.addItem(new Armor("Iron platebody", 1, 8, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Steel platebody", 2, 14, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Mithril platebody", 4, 20, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Adamantite platebody", 6, 35, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Rune platebody", 10, 60, ItemType.BREASTPLATE));
         
-        blackSmith.addItem(new Platelegs("Iron platelegs", 1, 7));
-        blackSmith.addItem(new Platelegs("Steel platelegs", 2, 13));
-        blackSmith.addItem(new Platelegs("Mithril platelegs", 4, 18));
-        blackSmith.addItem(new Platelegs("Adamantite platelegs", 6, 32));
-        blackSmith.addItem(new Platelegs("Rune platelegs", 10, 55));
+        blackSmith.addItem(new Armor("Iron platelegs", 1, 7, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Steel platelegs", 2, 13, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Mithril platelegs", 4, 18, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Adamantite platelegs", 6, 32, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Rune platelegs", 10, 55, ItemType.PLATELEGS));
         mainTown.addNpcShop(blackSmith);
 
         Location forest1 = new Location(new Coordinate(0, 1), "Forest");
@@ -286,6 +286,6 @@ public final class World
         World.setPlayer(player1);
 
         player1.addItemToInventory(new Weapon("Copper shortsword", 1, 5));
-        player1.addItemToInventory(new Helmet("Leather helmet", 1, 3));
+        player1.addItemToInventory(new Armor("Leather helmet", 1, 3, ItemType.HELMET));
     }
 }
