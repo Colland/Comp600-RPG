@@ -53,6 +53,7 @@ public class View extends JFrame implements Observer
         this.setVisible(true);
     }
     
+    //Displays the page for loading a character or creating a new one.
     public void displayLoadPlayerGUI(boolean error)
     {
         this.guiLayoutPanel.removeAll();
@@ -76,6 +77,7 @@ public class View extends JFrame implements Observer
         idInput.setMaximumSize(new Dimension(150, 20));
         loadPanel.add(idInput);
         
+        //Displays an error message if the controller indicated there was an error with the users input.
         if(error == true)
         {
             JLabel loadMsg2 = new JLabel("Please enter a valid ID, or create a new character.");
@@ -116,7 +118,7 @@ public class View extends JFrame implements Observer
       {
           this.guiLayoutPanel.removeAll();
           this.locationPanel.removeAll();
-          //Model updates and sends a data packet, containing info on what screen, what location etc.
+          
           ArrayList<Option> optionList = location.getOptions();
 
           JLabel locName = new JLabel(location.getName());
@@ -158,6 +160,7 @@ public class View extends JFrame implements Observer
           this.currentMenu = "LocationMain";
         }
     
+    //Gets available directions from the model and displays them.
     public void displayDirectionsGUI(ArrayList<Integer> availableDirections)
     {
         this.guiLayoutPanel.removeAll();
@@ -769,12 +772,6 @@ public class View extends JFrame implements Observer
         invTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
         invPanel.add(invTitle);
         
-        /*CustomButton checkInvBtn = new CustomButton("Show all items", ButtonType.SHOWALLITEMS);
-        checkInvBtn.setMaximumSize(new Dimension(170, 30));
-        checkInvBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        checkInvBtn.addActionListener(controller);
-        invPanel.add(checkInvBtn);*/
-        
         CustomButton equipItemBtn = new CustomButton("Equip an item", ButtonType.SHOWEQUIPS);
         equipItemBtn.setMaximumSize(new Dimension(170, 30));
         equipItemBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -1038,6 +1035,8 @@ public class View extends JFrame implements Observer
         this.repaint();
     } 
     
+    //Decides what menu's/pages to display based on the last menu the page was
+    //displaying as well as variables set by the model on the Data object.
     @Override
     public void update(Observable o, Object arg)
     {

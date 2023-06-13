@@ -6,8 +6,6 @@
 package comp603.project;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 /**
  *
@@ -79,7 +77,9 @@ public class Location
     }
     
         
-    //Checks for any Locations ajadcent to the calling Location.
+    //Checks for any Locations ajadcent to the calling Location. Returns an array
+    //filled with numbers 0-3 depending on if the location in that direction exits.
+    //(0 = North, 1 = East, 2 = South, 3 = West)
     public ArrayList<Integer> getAvailableDirections()
     {
         int x = this.coordinate.getX();

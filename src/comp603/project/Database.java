@@ -25,6 +25,7 @@ public class Database
     String dbUserName = "qwe";
     String dbPassWord = "qwe";
     
+    //Sets up the initial link to the database when the program loads.
     public void setupDB()
     {
        try
@@ -51,6 +52,7 @@ public class Database
        }
     }
     
+    //Makes sure we don't create duplicate tables.
     private boolean checkTableExisting(String newTableName)
     {
         boolean flag = false;
@@ -80,6 +82,7 @@ public class Database
         return flag;
     }
     
+    //Saves player data into the database.
     public void insertPlayerData(Player player)
     {
         String id = player.getId();
@@ -183,6 +186,7 @@ public class Database
         this.insertInventory(inventory, player.getId());
     }
     
+    //Loads player data from the database and returns a player object.
     public Player loadPlayerData(String id)
     {
         Player player = null;
@@ -230,6 +234,7 @@ public class Database
         return player;
     }
     
+    //Loads an item from teh database.
     public Item loadItem(String itemId)
     {
         String sql = "SELECT itemid, name, goldcost, itemtype, levelreq, qualityrating, characterid FROM Items WHERE itemid = ?";
@@ -277,6 +282,7 @@ public class Database
         return item;
     }
     
+    //Saves an item to the database.
     public void insertItem(Item item, String characterid)
     {
         String sql = "INSERT INTO Items (itemid, name, goldcost, itemtype, levelreq, qualityrating, characterid) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -319,7 +325,8 @@ public class Database
         } 
     }
     
-        
+    //Loads all the items from the Item table that have the corresponding character ID,
+    //meaning they are part of the players inventory data.
     public ArrayList<Item> loadInventory(String characterId)
     {
         String sql = "SELECT itemid, name, goldcost, itemtype, levelreq, qualityrating FROM Items WHERE characterid = ?";
@@ -366,6 +373,8 @@ public class Database
         return inventory;
     }
     
+    //Inserts a players inventory(all items they hold) into the Items table with the characters
+    //ID tied to each Item entry.
     public void insertInventory(ArrayList<Item> inventory, String characterId)
     {
         for(int i = 0; i < inventory.size(); i++)

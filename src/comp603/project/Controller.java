@@ -23,6 +23,8 @@ public class Controller implements ActionListener
         this.view = new View(this);
     }
     
+    //Catches the event from the view elements and parses them based on the ButtonType 
+    //enum tied to them.
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -133,6 +135,9 @@ public class Controller implements ActionListener
                     
                 case LOADCHARACTER:
                     String userInput = this.view.idInput.getText();
+                    
+                    //If user inputs nothing or an ID that returns null from the database,
+                    //display the page again with an error code(true).
                     
                     if(userInput.equals(""))
                     {

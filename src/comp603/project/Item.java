@@ -30,6 +30,7 @@ public abstract class Item
         this.itemType = itemType;
     }
     
+    //Constructor for loading an item from the database.
     public Item(String id, String name, int goldCost, int levelReq, ItemType itemType)
     {
         this.id = id;

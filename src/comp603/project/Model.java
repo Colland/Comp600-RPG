@@ -26,6 +26,7 @@ public class Model extends Observable
         this.db.setupDB();
     }
     
+    //Finds if there are any locations in each direction and passes it to the view.
     public void getAvailableDirections()
     { 
         this.setChanged();
@@ -236,6 +237,7 @@ public class Model extends Observable
         notifyObservers(data); 
     }
     
+    //Parses ComboItem's back into their item types and has the player equip them.
     public void equipItems(ComboItem helmet, ComboItem breastplate, ComboItem platelegs, ComboItem weapon)
     {
         if(helmet != null)

@@ -8,9 +8,6 @@ package comp603.project;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 /**
  *
  * @author tjack
