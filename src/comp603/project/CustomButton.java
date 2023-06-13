@@ -15,6 +15,7 @@ public class CustomButton extends JButton
 {
     public ButtonType buttonType;
     public int buttonNumber;
+    public Item boughtItem;
     
     CustomButton(String text)
     {
@@ -32,5 +33,12 @@ public class CustomButton extends JButton
         super(text);
         this.buttonType = buttonType;
         this.buttonNumber = buttonNumber;
+    }
+    
+    CustomButton(String text, ButtonType buttonType, Item item)
+    {
+        super(text);
+        this.buttonType = buttonType;
+        this.boughtItem = item;
     }
 }

@@ -227,6 +227,65 @@ public class Model extends Observable
        notifyObservers(data); 
     }
     
+    public void showInventory()
+    {
+        Data data = new Data();
+        data.setPlayer(this.player);
+        
+        this.setChanged();
+        notifyObservers(data); 
+    }
+    
+    public void equipItems(ComboItem helmet, ComboItem breastplate, ComboItem platelegs, ComboItem weapon)
+    {
+        if(helmet != null)
+        {
+            this.player.equipItem(helmet.getItem());
+        }
+        if(breastplate != null)
+        {
+            this.player.equipItem(breastplate.getItem());
+        }
+        if(platelegs != null)
+        {
+            this.player.equipItem(platelegs.getItem());
+        }
+        if(weapon != null)
+        {
+            this.player.equipItem(weapon.getItem());
+        }
+    }
+    
+    public void displayShopItems(ItemType itemType)
+    {
+        Data data = new Data();
+        data.setShopItems(this.player.getCurrentLocation().npcShopList.get(0).getItemsOfType(itemType));
+        
+        this.setChanged();
+        notifyObservers(data); 
+    }
+    
+    public void buyItem(Item item)
+    {
+        Data data = new Data();
+        data.setPlayer(this.player);
+        
+        if(player.getGold() >= item.getGoldCost())
+        {
+            this.player.reduceGold(item.getGoldCost());
+            this.player.addItemToInventory(item);
+            this.player.getCurrentLocation().npcShopList.get(0).removeItem(item);
+            data.setItemBought(true);
+        }
+        else
+        {
+            data.setItemBought(false);
+        }
+        
+        this.setChanged();
+        notifyObservers(data); 
+    }
+    
     public void restorePlayerHealth()
     {
         Data data = new Data();
@@ -254,8 +313,10 @@ public class Model extends Observable
     public void generateNewCharacter()
     {
         Player player = new Player("Tristan", 100, World.getLocation(new Coordinate(0, 0)));
-        player.addItemToInventory(new Weapon("Copper shortsword", 1, 5));
-        player.addItemToInventory(new Armor("Leather helmet", 1, 3, ItemType.HELMET));
+        player.addItemToInventory(new Weapon("Copper shortsword", 5, 1, 5, ItemType.WEAPON));
+        player.addItemToInventory(new Armor("Leather helmet", 5, 1, 3, ItemType.HELMET));
+        player.addItemToInventory(new Armor("Leather tunic", 5, 1, 3, ItemType.BREASTPLATE));
+        player.addItemToInventory(new Armor("Leather chaps", 5, 1, 3, ItemType.PLATELEGS));
         World.setPlayer(player);
         this.player = player;
     }

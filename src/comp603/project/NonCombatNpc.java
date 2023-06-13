@@ -6,8 +6,6 @@
 package comp603.project;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 /**
  *
@@ -39,6 +37,11 @@ public class NonCombatNpc extends Npc
         this.itemList.add(item);
     }
     
+    public void removeItem(Item item)
+    {
+        this.itemList.remove(item);
+    }
+    
     public ArrayList<Option> getOptionList()
     {
         return this.optionList;
@@ -47,5 +50,20 @@ public class NonCombatNpc extends Npc
     public ArrayList<Quest> getQuestList()
     {
         return this.questList;
+    }
+    
+    public ArrayList<Item> getItemsOfType(ItemType itemType)
+    {
+        ArrayList<Item> items = new ArrayList<>();
+        
+        for(int i = 0; i < this.itemList.size(); i++)
+        {
+            if(this.itemList.get(i).getItemType() == itemType)
+            {
+                items.add(itemList.get(i));   
+            }
+        }
+        
+        return items;
     }
 }

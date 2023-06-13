@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import java.util.Observer;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -29,6 +30,10 @@ public class View extends JFrame implements Observer
     public JPanel directionsPanel = new JPanel();
     public JPanel guiLayoutPanel = new JPanel();
     public JTextField idInput;
+    public JComboBox helmetEquip;
+    public JComboBox plateLegEquip;
+    public JComboBox breastPlateEquip;
+    public JComboBox weaponEquip;
     
     private String currentMenu;
             
@@ -41,7 +46,7 @@ public class View extends JFrame implements Observer
         this.setLocationRelativeTo(null);
         guiLayoutPanel.setLayout(new BoxLayout(guiLayoutPanel, BoxLayout.X_AXIS));
         locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));
-        locationPanel.setMaximumSize(new Dimension(600, 300));
+        locationPanel.setMaximumSize(new Dimension(600, 350));
         
         this.displayLoadPlayerGUI(false);
         this.currentMenu = "LoadPlayer";
@@ -752,6 +757,287 @@ public class View extends JFrame implements Observer
         this.repaint();
     }
     
+    public void showInventoryOptions()
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel invPanel = new JPanel();
+        invPanel.setLayout(new BoxLayout(invPanel, BoxLayout.Y_AXIS));
+        invPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel invTitle = new JLabel("Inventory options");
+        invTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        invTitle.setFont(new Font("Century Gothic", Font.PLAIN, 32));
+        invPanel.add(invTitle);
+        
+        /*CustomButton checkInvBtn = new CustomButton("Show all items", ButtonType.SHOWALLITEMS);
+        checkInvBtn.setMaximumSize(new Dimension(170, 30));
+        checkInvBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        checkInvBtn.addActionListener(controller);
+        invPanel.add(checkInvBtn);*/
+        
+        CustomButton equipItemBtn = new CustomButton("Equip an item", ButtonType.SHOWEQUIPS);
+        equipItemBtn.setMaximumSize(new Dimension(170, 30));
+        equipItemBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        equipItemBtn.addActionListener(controller);
+        invPanel.add(equipItemBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(invPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "InventoryMenu";
+    }
+    
+    public void showEquipMenu(Player player)
+    {
+        ArrayList<Item> inventory = player.getInventory();
+        
+        this.guiLayoutPanel.removeAll();
+        JPanel equipsPanel = new JPanel();
+        equipsPanel.setLayout(new BoxLayout(equipsPanel, BoxLayout.Y_AXIS));
+        equipsPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel equipsTitle = new JLabel("Equips");
+        equipsTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        equipsTitle.setFont(new Font("Century Gothic", Font.PLAIN, 28));
+        equipsPanel.add(equipsTitle);
+        
+        JLabel helmetLabel = new JLabel("Equipped helmet: ");
+        helmetLabel.setMaximumSize(new Dimension(200, 30));
+        helmetLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        equipsPanel.add(helmetLabel);
+        
+        this.helmetEquip = new JComboBox();
+        helmetEquip.setMaximumSize(new Dimension(150, 25));
+        
+        for(int i = 0; i < inventory.size(); i++)
+        {
+            Item currentItem = inventory.get(i);
+            if(currentItem.getItemType() == ItemType.HELMET)
+            {
+                helmetEquip.addItem(new ComboItem(currentItem, currentItem.getName()));
+            }
+        }
+        
+        helmetEquip.setSelectedItem(player.getEquippedHelmet());
+        equipsPanel.add(helmetEquip);
+        
+        JLabel breastPlateLabel = new JLabel("Equipped breastplate: ");
+        breastPlateLabel.setMaximumSize(new Dimension(200, 30));
+        breastPlateLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        equipsPanel.add(breastPlateLabel);
+        
+        this.breastPlateEquip = new JComboBox();
+        breastPlateEquip.setMaximumSize(new Dimension(150, 25));
+        
+        for(int i = 0; i < inventory.size(); i++)
+        {
+            Item currentItem = inventory.get(i);
+            if(currentItem.getItemType() == ItemType.BREASTPLATE)
+            {
+                breastPlateEquip.addItem(new ComboItem(currentItem, currentItem.getName()));
+            }
+        }
+        
+        breastPlateEquip.setSelectedItem(player.getEquippedBreastPlate());
+        equipsPanel.add(breastPlateEquip);
+        
+        JLabel plateLegsLabel = new JLabel("Equipped platelegs: ");
+        plateLegsLabel.setMaximumSize(new Dimension(200, 30));
+        plateLegsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        equipsPanel.add(plateLegsLabel);
+        
+        this.plateLegEquip = new JComboBox();
+        plateLegEquip.setMaximumSize(new Dimension(150, 25));
+        
+        for(int i = 0; i < inventory.size(); i++)
+        {
+            Item currentItem = inventory.get(i);
+            if(currentItem.getItemType() == ItemType.PLATELEGS)
+            {
+                plateLegEquip.addItem(new ComboItem(currentItem, currentItem.getName()));
+            }
+        }
+        
+        plateLegEquip.setSelectedItem(player.getEquippedPlateLegs());
+        equipsPanel.add(plateLegEquip);
+        
+        JLabel weaponLabel = new JLabel("Equipped weapon: ");
+        weaponLabel.setMaximumSize(new Dimension(200, 30));
+        weaponLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        equipsPanel.add(weaponLabel);
+        
+        this.weaponEquip = new JComboBox();
+        weaponEquip.setMaximumSize(new Dimension(150, 25));
+        
+        for(int i = 0; i < inventory.size(); i++)
+        {
+            Item currentItem = inventory.get(i);
+            if(currentItem.getItemType() == ItemType.WEAPON)
+            {
+                weaponEquip.addItem(new ComboItem(currentItem, currentItem.getName()));
+            }
+        }
+        
+        weaponEquip.setSelectedItem(player.getEquippedWeapon());
+        equipsPanel.add(weaponEquip);
+        
+        JPanel exitPanel = new JPanel();
+        
+        CustomButton exitButton = new CustomButton("Exit menu", ButtonType.EXITMENU);
+        exitButton.setMaximumSize(new Dimension(150, 20));
+        exitButton.addActionListener(controller);
+        exitPanel.add(exitButton);
+        
+        JPanel exitPanel2 = new JPanel();
+        
+        CustomButton exitButton2 = new CustomButton("Equip items", ButtonType.EQUIPITEMS);
+        exitButton2.setMaximumSize(new Dimension(150, 20));
+        exitButton2.addActionListener(controller);
+        exitPanel2.add(exitButton2);
+        
+        guiLayoutPanel.add(exitPanel);
+        guiLayoutPanel.add(equipsPanel);
+        guiLayoutPanel.add(exitPanel2);
+        
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "EquipsMenu";
+    }
+    
+    public void displayShop()
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel shopPanel = new JPanel();
+        shopPanel.setLayout(new BoxLayout(shopPanel, BoxLayout.Y_AXIS));
+        shopPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel shopTitle = new JLabel("Shop");
+        shopTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        shopTitle.setFont(new Font("Century Gothic", Font.PLAIN, 28));
+        shopPanel.add(shopTitle);
+        
+        CustomButton helmetBtn = new CustomButton("Helmets", ButtonType.DISPLAYSHOPHELMETS);
+        helmetBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        helmetBtn.setMaximumSize(new Dimension(150, 30));
+        helmetBtn.addActionListener(controller);
+        shopPanel.add(helmetBtn);
+        
+        CustomButton breastplateBtn = new CustomButton("Breastplates", ButtonType.DISPLAYSHOPBREASTPLATES);
+        breastplateBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        breastplateBtn.setMaximumSize(new Dimension(150, 30));
+        breastplateBtn.addActionListener(controller);
+        shopPanel.add(breastplateBtn);
+        
+        CustomButton platelegBtn = new CustomButton("Platelegs", ButtonType.DISPLAYSHOPPLATELEGS);
+        platelegBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        platelegBtn.setMaximumSize(new Dimension(150, 30));
+        platelegBtn.addActionListener(controller);
+        shopPanel.add(platelegBtn);
+        
+        CustomButton weaponBtn = new CustomButton("Weapons", ButtonType.DISPLAYSHOPWEAPONS);
+        weaponBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        weaponBtn.setMaximumSize(new Dimension(150, 30));
+        weaponBtn.addActionListener(controller);
+        shopPanel.add(weaponBtn);
+        
+        CustomButton exiBtn = new CustomButton("Exit shop", ButtonType.EXITMENU);
+        exiBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exiBtn.setMaximumSize(new Dimension(170, 30));
+        exiBtn.addActionListener(controller);
+        shopPanel.add(exiBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(shopPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "ShopMenu";
+    }
+    
+    public void displayShopItems(ArrayList<Item> items)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel shopPanel = new JPanel();
+        shopPanel.setLayout(new BoxLayout(shopPanel, BoxLayout.Y_AXIS));
+        shopPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel shopTitle = new JLabel("Items");
+        shopTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        shopTitle.setFont(new Font("Century Gothic", Font.PLAIN, 28));
+        shopPanel.add(shopTitle);
+        
+        JPanel itemsPanel = new JPanel();
+        itemsPanel.setLayout(new GridLayout(3, 3));
+        shopPanel.add(itemsPanel);
+        
+        for(int i = 0; i < items.size(); i++)
+        {
+            CustomButton itemBtn = new CustomButton("<html>" + items.get(i).getName() + " Gold: "
+                                                  + items.get(i).getGoldCost() + "</html>", ButtonType.BUYITEM, items.get(i));
+            itemBtn.addActionListener(controller);
+            itemsPanel.add(itemBtn);
+        }
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(shopPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+        
+        this.currentMenu = "ItemBuyMenu";
+    }
+    
+    public void displayBuyScreen(boolean buySuccess, Player player)
+    {
+        this.guiLayoutPanel.removeAll();
+        JPanel shopPanel = new JPanel();
+        shopPanel.setLayout(new BoxLayout(shopPanel, BoxLayout.Y_AXIS));
+        shopPanel.setMaximumSize(new Dimension(600, 300));
+        
+        JLabel shopTitle = new JLabel("Shop");
+        shopTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        shopTitle.setFont(new Font("Century Gothic", Font.PLAIN, 28));
+        shopPanel.add(shopTitle);
+        
+        if(buySuccess == true)
+        {
+            JLabel buyLabel = new JLabel("<html>Item bought. You have "  + player.getGold()
+                              + " gold left. </html>");
+            buyLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            buyLabel.setMaximumSize(new Dimension(175, 50));
+            shopPanel.add(buyLabel);
+        }
+        else
+        {
+            JLabel buyLabel = new JLabel("<html>You dont have enough gold to buy the item. You have "  + player.getGold()
+                              + " gold. </html>");
+            buyLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            buyLabel.setMaximumSize(new Dimension(175, 50)); 
+            shopPanel.add(buyLabel);
+        }
+        
+        CustomButton exitBtn = new CustomButton("Exit", ButtonType.EXITMENU);
+        exitBtn.addActionListener(controller);
+        exitBtn.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        exitBtn.setMaximumSize(new Dimension(175, 50)); 
+        shopPanel.add(exitBtn);
+        
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        guiLayoutPanel.add(shopPanel);
+        guiLayoutPanel.add(Box.createHorizontalGlue());
+        
+        this.revalidate();
+        this.repaint();
+    } 
+    
     @Override
     public void update(Observable o, Object arg)
     {
@@ -819,6 +1105,18 @@ public class View extends JFrame implements Observer
                 this.battleRound(data.getCurrentEnemy(), data.getPlayer(), data.isRunAttempt(),
                                  data.getEnemyDmg(), data.getPlayerDmg()); 
             }
+        }
+        else if(this.currentMenu.equals("InventoryMenu"))
+        {
+            this.showEquipMenu(data.getPlayer());
+        }
+        else if(this.currentMenu.equals("ShopMenu"))
+        {
+            this.displayShopItems(data.getShopItems());
+        }
+        else if(this.currentMenu.equals("ItemBuyMenu"))
+        {
+            this.displayBuyScreen(data.getItemBought(), data.getPlayer());
         }
     }
 }

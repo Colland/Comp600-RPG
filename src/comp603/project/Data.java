@@ -21,6 +21,8 @@ public class Data
     private ArrayList<Quest> questList;
     private Quest currentQuest;
     private ArrayList<CombatNpc> combatNpcList;
+    private ArrayList<Item> shopItemList;
+    private boolean itemBought;
     private CombatNpc currentEnemy;
     private Player player;
     private int playerDmg;
@@ -226,5 +228,25 @@ public class Data
     public boolean getInnSuccess()
     {
         return this.innSuccess;
+    }
+    
+    public void setShopItems(ArrayList<Item> shopItems)
+    {
+        this.shopItemList = shopItems;
+    }
+    
+    public ArrayList<Item> getShopItems()
+    {
+        return this.shopItemList;
+    }
+    
+    public void setItemBought(boolean itemBought)
+    {
+       this.itemBought = itemBought; 
+    }
+    
+    public boolean getItemBought()
+    {
+        return this.itemBought;
     }
 }

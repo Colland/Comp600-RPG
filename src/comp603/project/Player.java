@@ -264,7 +264,7 @@ public class Player
         }
     }
     
-    private void equipItem(Item item)
+    public void equipItem(Item item)
     {
         if(item.getItemType() == ItemType.HELMET)
         {

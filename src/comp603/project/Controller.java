@@ -35,11 +35,47 @@ public class Controller implements ActionListener
             {
                 case TRAVEL:
                     this.model.getAvailableDirections();
-                    //Model checks available positions
                     break;
 
                 case LOOKFORSHOPS:
-                    //Model updates
+                    this.view.displayShop();
+                    break;
+                    
+                case DISPLAYSHOPHELMETS:
+                    this.model.displayShopItems(ItemType.HELMET);
+                    break;
+                  
+                case DISPLAYSHOPBREASTPLATES:
+                    this.model.displayShopItems(ItemType.BREASTPLATE);
+                    break;
+                    
+                case DISPLAYSHOPPLATELEGS:
+                    this.model.displayShopItems(ItemType.PLATELEGS);
+                    break;
+                    
+                case DISPLAYSHOPWEAPONS:
+                    this.model.displayShopItems(ItemType.WEAPON);
+                    break;
+                    
+                case BUYITEM:
+                    this.model.buyItem(eventBtn.boughtItem);
+                    break;
+                    
+                case CHECKINVENTORY:
+                    this.view.showInventoryOptions();
+                    break;
+                    
+                case SHOWEQUIPS:
+                    this.model.showInventory();
+                    break;
+                    
+                case EQUIPITEMS:
+                    ComboItem helmet = (ComboItem)this.view.helmetEquip.getSelectedItem();
+                    ComboItem breastplate = (ComboItem)this.view.breastPlateEquip.getSelectedItem();
+                    ComboItem platelegs = (ComboItem)this.view.plateLegEquip.getSelectedItem();
+                    ComboItem weapon = (ComboItem)this.view.weaponEquip.getSelectedItem();
+                    
+                    this.model.equipItems(helmet, breastplate, platelegs, weapon);
                     break;
                     
                 case DIRECTIONAL:

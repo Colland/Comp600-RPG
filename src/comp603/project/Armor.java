@@ -13,15 +13,15 @@ public class Armor extends Item
 {
     private final int armorRating;
     
-    public Armor(String name, int levelReq, int armorRating, ItemType itemType)
+    public Armor(String name, int goldCost, int levelReq, int armorRating, ItemType itemType)
     {
-        super(name, levelReq, itemType);
+        super(name, goldCost, levelReq, itemType);
         this.armorRating = armorRating;
     }
     
-    public Armor(String id, String name, ItemType itemType, int levelReq, int qualityRating)
+    public Armor(String id, String name, int goldCost, ItemType itemType, int levelReq, int qualityRating)
     {
-        super(id, name, levelReq, itemType);
+        super(id, name, goldCost, levelReq, itemType);
         this.armorRating = qualityRating;
     }
     

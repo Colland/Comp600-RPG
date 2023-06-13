@@ -39,7 +39,7 @@ public class Database
                                       + " equippedweaponid VARCHAR(20))");
             }
             if (!checkTableExisting("Items")) {
-                statement.executeUpdate("CREATE TABLE Items (itemid VARCHAR(20), name VARCHAR(20), itemtype VARCHAR(20),"
+                statement.executeUpdate("CREATE TABLE Items (itemid VARCHAR(20), name VARCHAR(20), goldcost INT, itemtype VARCHAR(20),"
                                       + " levelreq INT, qualityrating INT, characterid VARCHAR(20))");
             }
             statement.close();
@@ -232,7 +232,7 @@ public class Database
     
     public Item loadItem(String itemId)
     {
-        String sql = "SELECT itemid, name, itemtype, levelreq, qualityrating, characterid FROM Items WHERE itemid = ?";
+        String sql = "SELECT itemid, name, goldcost, itemtype, levelreq, qualityrating, characterid FROM Items WHERE itemid = ?";
         Item item = null;
 
         try 
@@ -245,6 +245,7 @@ public class Database
             {
                 String id = resultSet.getString("itemid");
                 String name = resultSet.getString("name");
+                int goldCost = resultSet.getInt("goldcost");
                 String itemType = resultSet.getString("itemtype");
                 int levelReq = resultSet.getInt("levelreq");
                 int qualityRating = resultSet.getInt("qualityrating");
@@ -254,12 +255,12 @@ public class Database
                 
                 if(itemType.equals("WEAPON"))
                 {
-                    Weapon weapon = new Weapon(id, name, ItemType.valueOf(itemType), levelReq, qualityRating);
+                    Weapon weapon = new Weapon(id, name, goldCost, ItemType.valueOf(itemType), levelReq, qualityRating);
                     item = (Item)weapon;
                 }
                 else
                 {
-                    Armor armor = new Armor(id, name, ItemType.valueOf(itemType), levelReq, qualityRating);
+                    Armor armor = new Armor(id, name, goldCost, ItemType.valueOf(itemType), levelReq, qualityRating);
                     item = (Item)armor;
                 }
             }
@@ -278,33 +279,34 @@ public class Database
     
     public void insertItem(Item item, String characterid)
     {
-        String sql = "INSERT INTO Items (itemid, name, itemtype, levelreq, qualityrating, characterid) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Items (itemid, name, goldcost, itemtype, levelreq, qualityrating, characterid) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement statement = this.conn.prepareStatement(sql);
             statement.setString(1, item.getId());
             statement.setString(2, item.getName());
-            statement.setString(3, item.getItemType().name());
-            statement.setInt(4, item.getLevelReq());
+            statement.setInt(3, item.getGoldCost());
+            statement.setString(4, item.getItemType().name());
+            statement.setInt(5, item.getLevelReq());
             
             if(item.getItemType() == ItemType.WEAPON)
             {
                Weapon weapon = (Weapon)item;
-               statement.setInt(5, weapon.getDamageRating()); 
+               statement.setInt(6, weapon.getDamageRating()); 
             }
             else
             {
                Armor armor = (Armor)item;
-               statement.setInt(5, armor.getArmorRating()); 
+               statement.setInt(6, armor.getArmorRating()); 
             }
             
             if(characterid != null)
             {
-                statement.setString(6, characterid);  
+                statement.setString(7, characterid);  
             }
             else
             {
-                statement.setNull(6, java.sql.Types.VARCHAR);
+                statement.setNull(7, java.sql.Types.VARCHAR);
             }
 
             statement.executeUpdate();
@@ -320,19 +322,20 @@ public class Database
         
     public ArrayList<Item> loadInventory(String characterId)
     {
-        String sql = "SELECT itemid, name, itemtype, levelreq, qualityrating FROM Items WHERE characterid = ?";
+        String sql = "SELECT itemid, name, goldcost, itemtype, levelreq, qualityrating FROM Items WHERE characterid = ?";
         ArrayList<Item> inventory = new ArrayList<Item>();
-
+        
         try 
         {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, characterId);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next())
+            while (resultSet.next())
             {
                 String id = resultSet.getString("itemid");
                 String name = resultSet.getString("name");
+                int gold = resultSet.getInt("goldcost");
                 String itemType = resultSet.getString("itemtype");
                 int levelReq = resultSet.getInt("levelreq");
                 int qualityRating = resultSet.getInt("qualityrating");
@@ -341,12 +344,12 @@ public class Database
                 
                 if(itemType.equals("WEAPON"))
                 {
-                    Weapon weapon = new Weapon(id, name, ItemType.valueOf(itemType), levelReq, qualityRating);
+                    Weapon weapon = new Weapon(id, name, gold, ItemType.valueOf(itemType), levelReq, qualityRating);
                     inventory.add((Item)weapon);
                 }
                 else
                 {
-                    Armor armor = new Armor(id, name, ItemType.valueOf(itemType), levelReq, qualityRating);
+                    Armor armor = new Armor(id, name, gold, ItemType.valueOf(itemType), levelReq, qualityRating);
                     inventory.add((Item)armor);
                 }
             }

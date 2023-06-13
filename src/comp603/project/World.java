@@ -75,29 +75,29 @@ public final class World
         
         NonCombatNpc blackSmith = new NonCombatNpc("Blacksmith");
         blackSmith.addOption(new Option("Trade with", ButtonType.TRADEWITH));
-        blackSmith.addItem(new Weapon("Iron shortsword", 1, 8));
-        blackSmith.addItem(new Weapon("Steel shortsword", 2, 14));
-        blackSmith.addItem(new Weapon("Mithril shortsword", 4, 20));
-        blackSmith.addItem(new Weapon("Adamantite shortsword", 6, 35));
-        blackSmith.addItem(new Weapon("Rune shortsword", 10, 60));
+        blackSmith.addItem(new Weapon("Iron shortsword", 10, 1, 8, ItemType.WEAPON));
+        blackSmith.addItem(new Weapon("Steel shortsword", 15, 2, 14, ItemType.WEAPON));
+        blackSmith.addItem(new Weapon("Mithril shortsword", 30, 4, 20, ItemType.WEAPON));
+        blackSmith.addItem(new Weapon("Adamantite shortsword", 50, 6, 35, ItemType.WEAPON));
+        blackSmith.addItem(new Weapon("Rune shortsword", 60, 10, 60, ItemType.WEAPON));
         
-        blackSmith.addItem(new Armor("Iron helmet", 1, 6, ItemType.HELMET));
-        blackSmith.addItem(new Armor("Steel helmet", 2, 12, ItemType.HELMET));
-        blackSmith.addItem(new Armor("Mithril helmet", 4, 25, ItemType.HELMET));
-        blackSmith.addItem(new Armor("Adamantite helmet", 6, 30, ItemType.HELMET));
-        blackSmith.addItem(new Armor("Rune helmet", 10, 50, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Iron helmet", 10, 1, 6, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Steel helmet", 15, 2, 12, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Mithril helmet", 30, 4, 25, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Adamantite helmet", 50, 6, 30, ItemType.HELMET));
+        blackSmith.addItem(new Armor("Rune helmet", 60, 10, 50, ItemType.HELMET));
         
-        blackSmith.addItem(new Armor("Iron platebody", 1, 8, ItemType.BREASTPLATE));
-        blackSmith.addItem(new Armor("Steel platebody", 2, 14, ItemType.BREASTPLATE));
-        blackSmith.addItem(new Armor("Mithril platebody", 4, 20, ItemType.BREASTPLATE));
-        blackSmith.addItem(new Armor("Adamantite platebody", 6, 35, ItemType.BREASTPLATE));
-        blackSmith.addItem(new Armor("Rune platebody", 10, 60, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Iron platebody", 10, 1, 8, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Steel platebody", 15, 2, 14, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Mithril platebody", 30, 4, 20, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Adamantite platebody", 50, 6, 35, ItemType.BREASTPLATE));
+        blackSmith.addItem(new Armor("Rune platebody", 60, 10, 60, ItemType.BREASTPLATE));
         
-        blackSmith.addItem(new Armor("Iron platelegs", 1, 7, ItemType.PLATELEGS));
-        blackSmith.addItem(new Armor("Steel platelegs", 2, 13, ItemType.PLATELEGS));
-        blackSmith.addItem(new Armor("Mithril platelegs", 4, 18, ItemType.PLATELEGS));
-        blackSmith.addItem(new Armor("Adamantite platelegs", 6, 32, ItemType.PLATELEGS));
-        blackSmith.addItem(new Armor("Rune platelegs", 10, 55, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Iron platelegs", 10, 1, 7, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Steel platelegs", 15, 2, 13, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Mithril platelegs", 30, 4, 18, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Adamantite platelegs", 50, 6, 32, ItemType.PLATELEGS));
+        blackSmith.addItem(new Armor("Rune platelegs", 60, 10, 55, ItemType.PLATELEGS));
         mainTown.addNpcShop(blackSmith);
 
         Location forest1 = new Location(new Coordinate(0, 1), "Forest");
